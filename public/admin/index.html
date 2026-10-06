@@ -5,43 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>SLIM BIZ Blog Admin</title>
-    <script>window.CMS_MANUAL_INIT = true</script>
   </head>
   <body>
-    <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
-    <script>
-      CMS.init({
-        config: {
-          backend: {
-            name: 'github',
-            repo: 'slimbiz237/slim-biz-website',
-            branch: 'main',
-            auth_type: 'pkce',
-            app_id: 'Ov23li6oHaMQFAHcoAEv'
-          },
-          media_folder: 'public/uploads',
-          public_folder: '/uploads',
-          collections: [{
-            name: 'blog',
-            label: 'Blog Posts',
-            folder: 'content/blog',
-            create: true,
-            delete: true,
-            format: 'json',
-            fields: [
-              {name: 'title', label: 'Title', widget: 'string'},
-              {name: 'date', label: 'Date', widget: 'string'},
-              {name: 'category', label: 'Category', widget: 'string'},
-              {name: 'tag', label: 'Tag', widget: 'string'},
-              {name: 'readTime', label: 'Read Time', widget: 'string'},
-              {name: 'excerpt', label: 'Excerpt', widget: 'text'},
-              {name: 'body', label: 'Body', widget: 'markdown'},
-              {name: 'author', label: 'Author', widget: 'string'},
-              {name: 'img', label: 'Image URL', widget: 'string', required: false}
-            ]
-          }]
-        }
-      });
-    </script>
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
   </body>
 </html>
