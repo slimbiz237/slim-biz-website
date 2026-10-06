@@ -19,8 +19,6 @@
             auth_type: 'pkce',
             app_id: 'Ov23li6oHaMQFAHcoAEv'
           },
-          media_folder: 'public/uploads',
-          public_folder: '/uploads',
           collections: [{
             name: 'blog',
             label: 'Blog Posts',
@@ -28,17 +26,16 @@
             create: true,
             delete: true,
             format: 'json',
-            slug: '{{slug}}',
             fields: [
-              { label: 'Title', name: 'title', widget: 'string' },
-              { label: 'Date', name: 'date', widget: 'string' },
-              { label: 'Category', name: 'category', widget: 'select', options: ['Strategy','Media','Branding','Digital','Training','General'] },
-              { label: 'Tag', name: 'tag', widget: 'string' },
-              { label: 'Read Time', name: 'readTime', widget: 'string', default: '5 min read' },
-              { label: 'Excerpt', name: 'excerpt', widget: 'text' },
-              { label: 'Body', name: 'body', widget: 'markdown' },
-              { label: 'Author', name: 'author', widget: 'string', default: 'SLIM BIZ Team' },
-              { label: 'Featured Image URL', name: 'img', widget: 'string', required: false }
+              {name: 'title', label: 'Title', widget: 'string'},
+              {name: 'date', label: 'Date', widget: 'string'},
+              {name: 'category', label: 'Category', widget: 'string'},
+              {name: 'tag', label: 'Tag', widget: 'string'},
+              {name: 'readTime', label: 'Read Time', widget: 'string'},
+              {name: 'excerpt', label: 'Excerpt', widget: 'text'},
+              {name: 'body', label: 'Body', widget: 'markdown'},
+              {name: 'author', label: 'Author', widget: 'string'},
+              {name: 'img', label: 'Image URL', widget: 'string', required: false}
             ]
           }]
         }
