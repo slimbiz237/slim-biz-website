@@ -2,8 +2,7 @@ backend:
   name: github
   repo: slimbiz237/slim-biz-website
   branch: main
-  auth_type: pkce
-  app_id: Ov23li6oHaMQFAHcoAEv
+  base_url: https://slimbiz-oauth.infoslimbiz.workers.dev
 
 media_folder: public/uploads
 public_folder: /uploads
