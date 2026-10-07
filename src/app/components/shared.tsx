@@ -2,7 +2,7 @@ import ceoImg from "@/imports/Mbuntum_gilbert_neng-1.png";
 import lizethImg from "@/imports/Lizeth_Kemji-1.png";
 import digitalMediaDirectorImg from "@/imports/Mepipyou_Nouguep_Nadyane_Paola-1.png";
 import developerImg from "@/imports/Yofende_Louis_Kogah-1.png";
-import projectWriterImg from "@/imports/menda_promis_new.jpg";
+import projectWriterImg from "@/imports/menda_promis_new.jpg.jpg";
 import pamelaJamesImg from "@/imports/31e4f30c-45fb-4042-b295-e6eaedca3b10-1.png";
 import rinaKnowlesImg from "@/imports/1234567-1.png";
 import pageHeroBg from "@/imports/image.png";
