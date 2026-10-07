@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { Calendar, Clock, Search, ArrowRight } from "lucide-react";
-import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, BLOG_POSTS, SectionTag, SectionTagLeft, PageHero } from "../shared";
-
+import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, SectionTagLeft, PageHero } from "../shared";
+type BlogPost = {
+  title: string; date: string; category: string; tag: string;
+  readTime: string; excerpt: string; body: string; author: string; img: string;
+};
+const postModules = import.meta.glob("/content/blog/*.json", { eager: true }) as Record<string, any>;
+const BLOG_POSTS: BlogPost[] = Object.values(postModules).map((m: any) => m.default || m).reverse();
 const CATEGORIES = ["All", "Strategy", "Media", "Branding", "Digital"];
 
 export default function BlogPage() {
