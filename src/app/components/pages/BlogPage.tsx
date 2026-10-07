@@ -2,12 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { Calendar, Clock, Search, ArrowRight } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, SectionTagLeft, PageHero } from "../shared";
+
 type BlogPost = {
   title: string; date: string; category: string; tag: string;
-  readTime: string; excerpt: string; body: string; author: string; img: string;
+  readTime: string; excerpt: string; body: string; author: string; img: string; slug: string;
 };
+
 const postModules = import.meta.glob("/content/blog/*.json", { eager: true }) as Record<string, any>;
-const BLOG_POSTS: BlogPost[] = Object.values(postModules).map((m: any) => m.default || m).reverse();
+const BLOG_POSTS: BlogPost[] = Object.entries(postModules).map(([key, m]: [string, any]) => ({
+  ...(m.default || m),
+  slug: key.replace("/content/blog/", "").replace(".json", ""),
+})).reverse();
+
 const CATEGORIES = ["All", "Strategy", "Media", "Branding", "Digital"];
 
 export default function BlogPage() {
@@ -23,7 +29,9 @@ export default function BlogPage() {
   });
 
   const featured = BLOG_POSTS[0];
-  const rest = filtered.filter((p) => p.title !== featured.title);
+  const rest = filtered.filter((p) => p.title !== featured?.title);
+
+  if (!featured) return null;
 
   return (
     <>
@@ -52,15 +60,13 @@ export default function BlogPage() {
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>{featured.excerpt}</p>
               <div className="flex items-center gap-3 mb-8">
-                <img src={featured.authorImg} alt={featured.author} className="w-10 h-10 rounded-full object-cover bg-muted" />
                 <span className="text-foreground text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>{featured.author}</span>
               </div>
-              <button className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-medium tracking-wide transition-colors group"
-                style={{ background: NAVY, fontFamily: "'Inter', sans-serif" }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "#1A2B8A")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = NAVY)}>
+              <Link to={`/blog/${featured.slug}`}
+                className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-medium tracking-wide transition-colors group"
+                style={{ background: NAVY, fontFamily: "'Inter', sans-serif" }}>
                 Read Article <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -69,7 +75,6 @@ export default function BlogPage() {
       {/* Search + filter + grid */}
       <section className="py-24 lg:py-32 bg-secondary">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
-          {/* Search bar */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <div className="relative flex-1">
               <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -102,7 +107,6 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Recent posts */}
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
               {activeCategory === "All" ? "All Articles" : activeCategory} {searchQuery && `· "${searchQuery}"`}
@@ -112,7 +116,8 @@ export default function BlogPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((post) => (
-              <article key={post.title} className="group bg-card border border-border overflow-hidden cursor-pointer transition-colors duration-300"
+              <Link to={`/blog/${post.slug}`} key={post.slug} className="group bg-card border border-border overflow-hidden transition-colors duration-300 block"
+                style={{ textDecoration: "none" }}
                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${NAVY}30`)}
                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = "")}>
                 <div className="relative h-52 overflow-hidden bg-muted">
@@ -127,16 +132,13 @@ export default function BlogPage() {
                   <h3 className="text-foreground leading-snug mb-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.05rem" }}>{post.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>{post.excerpt}</p>
                   <div className="flex items-center justify-between border-t border-border pt-4">
-                    <div className="flex items-center gap-2">
-                      <img src={post.authorImg} alt={post.author} className="w-7 h-7 rounded-full object-cover bg-muted" />
-                      <span className="text-muted-foreground text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>{post.author}</span>
-                    </div>
+                    <span className="text-muted-foreground text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>{post.author}</span>
                     <div className="flex items-center gap-1.5 text-sm font-medium" style={{ color: ORANGE, fontFamily: "'Inter', sans-serif" }}>
                       Read <ArrowRight size={14} />
                     </div>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
 
