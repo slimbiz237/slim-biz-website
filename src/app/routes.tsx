@@ -7,6 +7,7 @@ import PortfolioPage from "./components/pages/PortfolioPage";
 import PricingPage from "./components/pages/PricingPage";
 import TestimonialsPage from "./components/pages/TestimonialsPage";
 import BlogPage from "./components/pages/BlogPage";
+import BlogPostPage from "./components/pages/BlogPostPage";
 import ContactPage from "./components/pages/ContactPage";
 import FAQPage from "./components/pages/FAQPage";
 import CareersPage from "./components/pages/CareersPage";
@@ -24,7 +25,7 @@ export const router = createBrowserRouter([
       { path: "portfolio",    Component: PortfolioPage },
       { path: "pricing",      Component: PricingPage },
       { path: "testimonials", Component: TestimonialsPage },
-      { path: "blog",         Component: BlogPage },
+      { path: "blog/:slug", Component: BlogPostPage },
       { path: "contact",      Component: ContactPage },
       { path: "faq",          Component: FAQPage },
       { path: "careers",      Component: CareersPage },
