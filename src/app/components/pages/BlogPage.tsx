@@ -40,30 +40,6 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
   _cacheTime = Date.now();
   return sorted;
 }
-      const data = await raw.json();
-      return { ...data, slug: f.name.replace(".json", "") } as BlogPost;
-    })
-  );
-  const posts = results
-    .filter((r): r is PromiseFulfilledResult<BlogPost> => r.status === "fulfilled")
-    .map((r) => r.value);
-  );
-  const posts = results
-    .filter((r): r is PromiseFulfilledResult<BlogPost> => r.status === "fulfilled")
-    .map((r) => r.value);
-    jsonFiles.map(async (f) => {
-      const raw = await fetch(
-        `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}/${f.name}?t=${Date.now()}`
-      );
-      const data = await raw.json();
-      return { ...data, slug: f.name.replace(".json", "") } as BlogPost;
-    })
-  );
-  const sorted = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  _cache = sorted;
-  _cacheTime = Date.now();
-  return sorted;
-}
 
 const CATEGORIES = ["All", "Strategy", "Media", "Branding", "Digital", "Training", "General"];
 
