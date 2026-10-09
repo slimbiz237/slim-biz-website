@@ -23,7 +23,18 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
   if (!listRes.ok) throw new Error("Failed to list posts");
   const files: { name: string }[] = await listRes.json();
   const jsonFiles = files.filter((f) => f.name.endsWith(".json"));
-  const posts = await Promise.all(
+  const results = await Promise.allSettled(
+    jsonFiles.map(async (f) => {
+      const raw = await fetch(
+        `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}/${f.name}?t=${Date.now()}`
+      );
+      const data = await raw.json();
+      return { ...data, slug: f.name.replace(".json", "") } as BlogPost;
+    })
+  );
+  const posts = results
+    .filter((r): r is PromiseFulfilledResult<BlogPost> => r.status === "fulfilled")
+    .map((r) => r.value);
     jsonFiles.map(async (f) => {
       const raw = await fetch(
         `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}/${f.name}?t=${Date.now()}`
