@@ -539,26 +539,4 @@ export function PageHero({ tag, title, subtitle, dark = true }: { tag: string; t
     </section>
   );
 }
-    <section className="relative flex items-center overflow-hidden" style={{ minHeight: "clamp(260px, 40vw, 460px)" }}>
-      <div className="absolute inset-0">
-        <img
-          src={pageHeroBg}
-          alt=""
-          className="w-full h-full object-cover object-center"
-          style={{ objectPosition: "center 30%" }}
-        />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(18,31,107,0.88) 0%, rgba(18,31,107,0.70) 60%, rgba(18,31,107,0.50) 100%)" }} />
-      </div>
-      <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: ORANGE }} />
-  
-        <SectionTag label={tag} />
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-3 sm:mb-4 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h1>
-        {subtitle && (
-          <p className="text-white/65 max-w-xl mx-auto text-sm sm:text-base lg:text-lg leading-relaxed px-2" style={{ fontFamily: "'Inter', sans-serif" }}>
-            {subtitle}
-          </p>
-        )}
-      </div>
-    </section>
-  );
-}
+   
