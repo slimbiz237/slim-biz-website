@@ -35,6 +35,10 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
   const posts = results
     .filter((r): r is PromiseFulfilledResult<BlogPost> => r.status === "fulfilled")
     .map((r) => r.value);
+  );
+  const posts = results
+    .filter((r): r is PromiseFulfilledResult<BlogPost> => r.status === "fulfilled")
+    .map((r) => r.value);
     jsonFiles.map(async (f) => {
       const raw = await fetch(
         `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}/${f.name}?t=${Date.now()}`
