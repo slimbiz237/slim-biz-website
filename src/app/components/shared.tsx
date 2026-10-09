@@ -527,7 +527,7 @@ export function PageHero({ tag, title, subtitle, dark = true }: { tag: string; t
         <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(18,31,107,0.88) 0%, rgba(18,31,107,0.70) 60%, rgba(18,31,107,0.50) 100%)" }} />
       </div>
       <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: ORANGE }} />
-      <div className="relative w-full max-w-7xl mx-auto px-5 lg:px-10 text-center py-20 pt-28 sm:pt-32 lg:pt-36">
+      
         <SectionTag label={tag} />
         <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-3 sm:mb-4 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h1>
         {subtitle && (
