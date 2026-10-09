@@ -15,7 +15,7 @@ const FOLDER = "content/blog";
 
 let _cache: BlogPost[] | null = null;
 let _cacheTime = 0;
-const CACHE_TTL = 60_000;
+const CACHE_TTL = 600_000;
 
 async function fetchAllPosts(): Promise<BlogPost[]> {
   if (_cache && Date.now() - _cacheTime < CACHE_TTL) return _cache;
