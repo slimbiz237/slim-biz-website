@@ -26,7 +26,8 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
   const results = await Promise.allSettled(
     jsonFiles.map(async (f) => {
       const raw = await fetch(
-        `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}/${encodeURIComponent/${encodeURIComponent(f.name)}?t=${Date.now()}`
+       const raw = await fetch(
+        `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}/${encodeURIComponent(f.name)}?t=${Date.now()}`
       );
       const data = await raw.json();
       return { ...data, slug: f.name.replace(".json", "") } as BlogPost;
