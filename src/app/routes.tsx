@@ -13,8 +13,13 @@ import FAQPage from "./components/pages/FAQPage";
 import CareersPage from "./components/pages/CareersPage";
 import ConsultationPage from "./components/pages/ConsultationPage";
 import TrainingPage from "./components/pages/TrainingPage";
+import AdminPage from "./components/pages/AdminPage";
 
 export const router = createBrowserRouter([
+  {
+    path: "/blog-admin",
+    Component: AdminPage,
+  },
   {
     path: "/",
     Component: Layout,
