@@ -100,7 +100,7 @@ export default function AdminPage() {
     }
   }
 
-  async function publish() {
+   async function publish() {
     setPublishing(true);
     setPublishError("");
     const postData = {
@@ -112,14 +112,50 @@ export default function AdminPage() {
     const content = toBase64utf8(JSON.stringify(postData, null, 2));
     const token = sessionStorage.getItem("gh_admin_token");
     const fileUrl = `https://api.github.com/repos/${REPO}/contents/${FOLDER}/${filename}`;
+
+    async function putFile(sha?: string) {
+      const body: Record<string, string> = {
+        message: `${sha ? "Update" : "Add"} blog post: ${form.title}`,
+        content,
+        branch: BRANCH,
+      };
+      if (sha) body.sha = sha;
+      return fetch(fileUrl, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    }
+
     try {
-      // Check if file already exists to get its sha (required for updates)
       let sha: string | undefined;
-      const existing = await fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } });
-      if (existing.ok) {
-        const existingData = await existing.json();
-        sha = existingData.sha;
+      const check = await fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } });
+      if (check.ok) {
+        const data = await check.json();
+        sha = data.sha;
       }
+
+      const res = await putFile(sha);
+      if (res.ok) {
+        setPublished(true);
+      } else {
+        const err = await res.json();
+        if (typeof err.message === "string" && err.message.toLowerCase().includes("sha")) {
+          const retry = await fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } });
+          if (retry.ok) {
+            const retryData = await retry.json();
+            const res2 = await putFile(retryData.sha);
+            if (res2.ok) { setPublished(true); return; }
+          }
+        }
+        setPublishError(err.message || "Failed to publish. Check token has repo write permission.");
+      }
+    } catch {
+      setPublishError("Network error. Please try again.");
+    } finally {
+      setPublishing(false);
+    }
+  }
 
       const body: Record<string, string> = {
         message: `${sha ? "Update" : "Add"} blog post: ${form.title}`,
