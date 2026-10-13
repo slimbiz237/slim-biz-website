@@ -28,6 +28,30 @@ const MOBILE_EXTRA_LINKS = [
 
 function LangToggle() {
   const { lang, setLang } = useLang();
+
+  useEffect(() => {
+    const match = document.cookie.match(/googtrans=\/en\/([a-z]+)/);
+    if (match && match[1] && match[1] !== "en") setLang(match[1] as Lang);
+  }, []);
+
+  function switchLang(l: Lang) {
+    setLang(l);
+    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+    if (combo) {
+      combo.value = l === "en" ? "" : l;
+      combo.dispatchEvent(new Event("change", { bubbles: true }));
+      return;
+    }
+    if (l === "en") {
+      document.cookie = "googtrans=/en/en; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+      document.cookie = `googtrans=/en/en; path=/; domain=.${location.hostname}; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    } else {
+      document.cookie = `googtrans=/en/${l}; path=/`;
+      document.cookie = `googtrans=/en/${l}; path=/; domain=.${location.hostname}`;
+    }
+    window.location.reload();
+  }
+
   return (
     <div
       className="flex items-center overflow-hidden border border-white/25"
@@ -36,7 +60,7 @@ function LangToggle() {
       {(["en", "fr"] as Lang[]).map((l) => (
         <button
           key={l}
-          onClick={() => setLang(l)}
+          onClick={() => switchLang(l)}
           className="px-2.5 py-1.5 text-[10px] font-medium tracking-widest uppercase transition-colors"
           style={{
             background: lang === l ? ORANGE : "transparent",
