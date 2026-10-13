@@ -3,7 +3,11 @@ import { Calendar, Clock, Search, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, SectionTagLeft, PageHero } from "../shared";
 
-type BlogPost = {
+function imgUrl(img?: string): string | undefined {
+  if (!img) return undefined;
+  if (img.startsWith("http")) return img;
+  return `https://images.unsplash.com/${img}?w=700&h=450&fit=crop&auto=format`;
+}
   title: string; date: string; category: string; tag: string;
   readTime: string; excerpt: string; body: string; author: string; img?: string;
   slug: string;
@@ -97,7 +101,7 @@ export default function BlogPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="relative h-96 overflow-hidden bg-muted">
                 {featured.img && (
-                  <img src={featured.img} alt={featured.title} className="w-full h-full object-cover" />
+                  <img src={imgUrl(featured.img)} alt={featured.title} className="w-full h-full object-cover" />
                 )}
                 <div className="absolute top-4 left-4 text-white text-xs px-3 py-1" style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}>{featured.tag}</div>
               </div>
@@ -182,7 +186,7 @@ export default function BlogPage() {
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = "")}>
                   <div className="relative h-52 overflow-hidden bg-muted">
                     {post.img && (
-                      <img src={post.img} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <img src={imgUrl(post.img)} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     )}
                     <div className="absolute top-3 left-3 text-white text-xs px-3 py-1" style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}>{post.tag}</div>
                   </div>
