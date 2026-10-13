@@ -6,7 +6,11 @@ import { NAVY, ORANGE, NAVY_DARK } from "../shared";
 type BlogPost = {
   title: string; date: string; category: string; tag: string;
   readTime: string; excerpt: string; body: string; author: string; img?: string;
-};
+};function imgUrl(img?: string): string | undefined {
+  if (!img) return undefined;
+  if (img.startsWith("http")) return img;
+  return `https://images.unsplash.com/${img}?w=700&h=450&fit=crop&auto=format`;
+}
 
 const REPO = "slimbiz237/slim-biz-website";
 const BRANCH = "main";
@@ -78,7 +82,7 @@ export default function BlogPostPage() {
       {post.img && (
         <div className="max-w-4xl mx-auto px-5 lg:px-10">
           <div className="h-72 lg:h-96 overflow-hidden">
-            <img src={post.img} alt={post.title} className="w-full h-full object-cover" />
+            <img src={imgUrl(post.img)} alt={post.title} className="w-full h-full object-cover" />
           </div>
         </div>
       )}
