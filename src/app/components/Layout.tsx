@@ -36,18 +36,14 @@ function LangToggle() {
 
   function switchLang(l: Lang) {
     setLang(l);
-    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
-    if (combo) {
-      combo.value = l === "en" ? "" : l;
-      combo.dispatchEvent(new Event("change", { bubbles: true }));
-      return;
-    }
+    const host = location.hostname;
+    const domain = host.startsWith("www.") ? host.slice(4) : host;
     if (l === "en") {
-      document.cookie = "googtrans=/en/en; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      document.cookie = `googtrans=/en/en; path=/; domain=.${location.hostname}; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; domain=.${domain}`;
     } else {
       document.cookie = `googtrans=/en/${l}; path=/`;
-      document.cookie = `googtrans=/en/${l}; path=/; domain=.${location.hostname}`;
+      document.cookie = `googtrans=/en/${l}; path=/; domain=.${domain}`;
     }
     window.location.reload();
   }
@@ -68,6 +64,11 @@ function LangToggle() {
           }}
         >
           {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
         </button>
       ))}
     </div>
