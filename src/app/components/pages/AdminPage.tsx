@@ -110,17 +110,41 @@ export default function AdminPage() {
     };
     const filename = `${form.slug}.json`;
     const content = toBase64utf8(JSON.stringify(postData, null, 2));
+    const token = sessionStorage.getItem("gh_admin_token");
+    const fileUrl = `https://api.github.com/repos/${REPO}/contents/${FOLDER}/${filename}`;
     try {
-      const res = await fetch(
-        `https://api.github.com/repos/${REPO}/contents/${FOLDER}/${filename}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("gh_admin_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message: `Add blog post: ${form.title}`, content, branch: BRANCH }),
-        }
+      // Check if file already exists to get its sha (required for updates)
+      let sha: string | undefined;
+      const existing = await fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } });
+      if (existing.ok) {
+        const existingData = await existing.json();
+        sha = existingData.sha;
+      }
+
+      const body: Record<string, string> = {
+        message: `${sha ? "Update" : "Add"} blog post: ${form.title}`,
+        content,
+        branch: BRANCH,
+      };
+      if (sha) body.sha = sha;
+
+      const res = await fetch(fileUrl, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        setPublished(true);
+      } else {
+        const err = await res.json();
+        setPublishError(err.message || "Failed to publish. Check token has repo write permission.");
+      }
+    } catch {
+      setPublishError("Network error. Please try again.");
+    } finally {
+      setPublishing(false);
+    }
+  }
       );
       if (res.ok) {
         setPublished(true);
