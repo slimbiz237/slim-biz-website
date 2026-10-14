@@ -64,6 +64,7 @@ export default function AdminPage() {
   const [published, setPublished] = useState(false);
   const [publishError, setPublishError] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("gh_admin_token");
@@ -71,6 +72,7 @@ export default function AdminPage() {
   }, []);
 
   const setField = (k: keyof FormState, v: string) => {
+    if (k === "img") setImgError(false);
     setForm((f) => {
       const updated = { ...f, [k]: v };
       if (k === "title") updated.slug = slugify(v);
@@ -100,9 +102,11 @@ export default function AdminPage() {
     }
   }
 
-   async function publish() {
+  async function publish() {
+    if (publishing) return;
     setPublishing(true);
     setPublishError("");
+
     const postData = {
       title: form.title, date: form.date, category: form.category,
       tag: form.tag, readTime: form.readTime, author: form.author,
@@ -110,7 +114,7 @@ export default function AdminPage() {
     };
     const filename = `${form.slug}.json`;
     const content = toBase64utf8(JSON.stringify(postData, null, 2));
-    const token = sessionStorage.getItem("gh_admin_token");
+    const authToken = sessionStorage.getItem("gh_admin_token") || token;
     const fileUrl = `https://api.github.com/repos/${REPO}/contents/${FOLDER}/${filename}`;
 
     async function putFile(sha?: string) {
@@ -122,14 +126,15 @@ export default function AdminPage() {
       if (sha) body.sha = sha;
       return fetch(fileUrl, {
         method: "PUT",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        headers: { Authorization: `Bearer ${authToken}`, "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
     }
 
+    let success = false;
     try {
       let sha: string | undefined;
-      const check = await fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } });
+      const check = await fetch(fileUrl, { headers: { Authorization: `Bearer ${authToken}` } });
       if (check.ok) {
         const data = await check.json();
         sha = data.sha;
@@ -137,61 +142,30 @@ export default function AdminPage() {
 
       const res = await putFile(sha);
       if (res.ok) {
-        setPublished(true);
+        success = true;
       } else {
         const err = await res.json();
         if (typeof err.message === "string" && err.message.toLowerCase().includes("sha")) {
-          const retry = await fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } });
+          const retry = await fetch(fileUrl, { headers: { Authorization: `Bearer ${authToken}` } });
           if (retry.ok) {
             const retryData = await retry.json();
             const res2 = await putFile(retryData.sha);
-            if (res2.ok) { setPublished(true); return; }
+            if (res2.ok) success = true;
           }
         }
-        setPublishError(err.message || "Failed to publish. Check token has repo write permission.");
+        if (!success) {
+          setPublishError(err.message || "Failed to publish. Check token has repo write permission.");
+        }
       }
     } catch {
       setPublishError("Network error. Please try again.");
     } finally {
       setPublishing(false);
     }
-  }
 
-      const body: Record<string, string> = {
-        message: `${sha ? "Update" : "Add"} blog post: ${form.title}`,
-        content,
-        branch: BRANCH,
-      };
-      if (sha) body.sha = sha;
-
-      const res = await fetch(fileUrl, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (res.ok) {
-        setPublished(true);
-      } else {
-        const err = await res.json();
-        setPublishError(err.message || "Failed to publish. Check token has repo write permission.");
-      }
-    } catch {
-      setPublishError("Network error. Please try again.");
-    } finally {
-      setPublishing(false);
-    }
-  }
-      );
-      if (res.ok) {
-        setPublished(true);
-      } else {
-        const err = await res.json();
-        setPublishError(err.message || "Failed to publish. Check token has repo write permission.");
-      }
-    } catch {
-      setPublishError("Network error. Please try again.");
-    } finally {
-      setPublishing(false);
+    if (success) {
+      // Switch screens on the next tick, after the "publishing" state has rendered
+      setTimeout(() => setPublished(true), 0);
     }
   }
 
@@ -207,7 +181,7 @@ export default function AdminPage() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#F7F8FC", fontFamily: "'Inter', sans-serif" }}>
+      <div key="login" translate="no" className="min-h-screen flex items-center justify-center notranslate" style={{ background: "#F7F8FC", fontFamily: "'Inter', sans-serif" }}>
         <div className="w-full max-w-md p-10 bg-white border border-gray-200 shadow-sm">
           <div className="w-8 h-1 mb-8" style={{ background: ORANGE }} />
           <h1 className="text-xl font-semibold text-gray-900 mb-1">Blog Admin</h1>
@@ -234,7 +208,7 @@ export default function AdminPage() {
             <button onClick={validateToken} disabled={!token || validating}
               className="w-full py-3 text-white text-sm font-medium tracking-wide disabled:opacity-40"
               style={{ background: NAVY }}>
-              {validating ? "Connecting..." : "Connect to GitHub"}
+              <span>{validating ? "Connecting..." : "Connect to GitHub"}</span>
             </button>
           </div>
           <p className="text-xs text-gray-300 mt-6 leading-relaxed">
@@ -247,22 +221,23 @@ export default function AdminPage() {
 
   if (published) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#F7F8FC", fontFamily: "'Inter', sans-serif" }}>
+      <div key="published" translate="no" className="min-h-screen flex items-center justify-center notranslate" style={{ background: "#F7F8FC", fontFamily: "'Inter', sans-serif" }}>
         <div className="text-center max-w-md px-8">
           <CheckCircle size={52} className="mx-auto mb-5" style={{ color: NAVY }} />
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">Published!</h2>
           <p className="text-gray-500 text-sm mb-1"><strong>{form.title}</strong></p>
           <p className="text-gray-400 text-sm mb-8">
-            Saved as <code className="bg-gray-100 px-1 py-0.5 text-xs">{form.slug}.json</code>.<br />
-            Cloudflare deploys in ~2 min. Posts appear after hard refresh.
+            <span>Saved as </span>
+            <code className="bg-gray-100 px-1 py-0.5 text-xs">{form.slug}.json</code>
+            <span>. Cloudflare deploys in ~2 min. Posts appear after hard refresh.</span>
           </p>
           <div className="flex gap-3 justify-center">
-            <button onClick={() => { setPublished(false); setForm(defaultForm()); }}
+            <button onClick={() => { setPublished(false); setImgError(false); setForm(defaultForm()); }}
               className="px-6 py-3 text-white text-sm font-medium" style={{ background: NAVY }}>
-              Write Another Post
+              <span>Write Another Post</span>
             </button>
             <Link to="/blog" className="px-6 py-3 text-sm border border-gray-200 text-gray-600">
-              View Blog
+              <span>View Blog</span>
             </Link>
           </div>
         </div>
@@ -277,7 +252,7 @@ export default function AdminPage() {
   }, null, 2);
 
   return (
-    <div className="min-h-screen" style={{ background: "#F7F8FC", fontFamily: "'Inter', sans-serif" }}>
+    <div key="editor" translate="no" className="min-h-screen notranslate" style={{ background: "#F7F8FC", fontFamily: "'Inter', sans-serif" }}>
       <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-4">
           <Link to="/" className="text-gray-400 hover:text-gray-700">
@@ -290,11 +265,11 @@ export default function AdminPage() {
         <div className="flex items-center gap-3">
           <button onClick={() => setShowPreview(!showPreview)}
             className="flex items-center gap-1.5 text-xs text-gray-500 px-3 py-2 border border-gray-200">
-            <Eye size={13} /> {showPreview ? "Hide" : "Preview"} JSON
+            <Eye size={13} /> <span>{showPreview ? "Hide" : "Preview"} JSON</span>
           </button>
           <button onClick={() => { sessionStorage.removeItem("gh_admin_token"); setAuthenticated(false); setToken(""); }}
             className="text-xs text-gray-400 hover:text-gray-600 px-3 py-2">
-            Disconnect
+            <span>Disconnect</span>
           </button>
         </div>
       </div>
@@ -312,7 +287,9 @@ export default function AdminPage() {
               <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Slug (filename) *</label>
               <input type="text" value={form.slug} onChange={(e) => setField("slug", e.target.value)}
                 className="w-full px-4 py-3 border border-gray-200 bg-white text-gray-900 text-sm font-mono focus:outline-none focus:border-gray-400" />
-              <p className="text-xs text-gray-300 mt-1">content/blog/<strong>{form.slug || "..."}</strong>.json</p>
+              <p className="text-xs text-gray-300 mt-1">
+                <span>content/blog/</span><strong>{form.slug || "..."}</strong><span>.json</span>
+              </p>
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
@@ -324,7 +301,7 @@ export default function AdminPage() {
                 <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Category</label>
                 <select value={form.category} onChange={(e) => setField("category", e.target.value)}
                   className="w-full px-4 py-3 border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:border-gray-400">
-                  {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
@@ -350,10 +327,10 @@ export default function AdminPage() {
               <input type="text" value={form.img} onChange={(e) => setField("img", e.target.value)}
                 placeholder="https://images.unsplash.com/photo-xxxxx?w=700&h=450&fit=crop&auto=format"
                 className="w-full px-4 py-3 border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:border-gray-400" />
-              {form.img && (
-                <img src={form.img} alt="preview" className="mt-2 h-36 w-full object-cover border border-gray-200"
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                  onLoad={(e) => (e.currentTarget.style.display = "block")} />
+              {form.img && !imgError && (
+                <img key={form.img} src={form.img} alt="preview"
+                  className="mt-2 h-36 w-full object-cover border border-gray-200"
+                  onError={() => setImgError(true)} />
               )}
             </div>
             <div>
@@ -365,7 +342,8 @@ export default function AdminPage() {
             </div>
             <div>
               <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">
-                Body * <span className="normal-case tracking-normal text-gray-300">— use ## for headings, **bold**, blank line between paragraphs</span>
+                <span>Body *</span>{" "}
+                <span className="normal-case tracking-normal text-gray-300">— use ## for headings, **bold**, blank line between paragraphs</span>
               </label>
               <textarea value={form.body} onChange={(e) => setField("body", e.target.value)} rows={22}
                 placeholder={"Start writing here...\n\nPress Enter twice between paragraphs.\n\nUse ## Heading for sections.\n\nNo JSON escaping needed!"}
@@ -378,9 +356,17 @@ export default function AdminPage() {
             <button onClick={publish} disabled={!canPublish}
               className="w-full flex items-center justify-center gap-2 py-4 text-white text-sm font-medium disabled:opacity-40"
               style={{ background: NAVY }}>
-              {publishing
-                ? <><Loader size={15} className="animate-spin" /> Publishing to GitHub...</>
-                : <><Upload size={15} /> Publish Post</>}
+              {publishing ? (
+                <span key="publishing" className="flex items-center gap-2">
+                  <Loader size={15} className="animate-spin" />
+                  <span>Publishing to GitHub...</span>
+                </span>
+              ) : (
+                <span key="idle" className="flex items-center gap-2">
+                  <Upload size={15} />
+                  <span>Publish Post</span>
+                </span>
+              )}
             </button>
           </div>
 
@@ -403,7 +389,7 @@ export default function AdminPage() {
                 <li>• ## Heading for H2 sections</li>
                 <li>• **word** for bold text</li>
                 <li>• Aim for 1000+ words for SEO</li>
-                <li>• Unsplash URL: add ?w=700&h=450&fit=crop&auto=format</li>
+                <li>• Unsplash URL: add ?w=700&amp;h=450&amp;fit=crop&amp;auto=format</li>
               </ul>
             </div>
             {showPreview && (
