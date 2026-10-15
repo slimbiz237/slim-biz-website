@@ -126,7 +126,7 @@ function AboutPreview() {
               Traditional Reach. Digital Precision. One Integrated Strategy.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Created in 2018 and officially registered in 2024, SLIM BIZ SARL is a full-service marketing and advertising agency headquartered in Yaoundé, Cameroun — bridging the power of traditional media with the agility of digital channels.
+              Registered in 2024, SLIM BIZ SARL is a full-service marketing and advertising agency headquartered in Yaoundé, Cameroun — bridging the power of traditional media with the agility of digital channels.
             </p>
             <div className="grid grid-cols-2 gap-4 mb-8">
               {["Integrated Campaign Planning", "Full TV & Broadcast Production", "Media Buying Across All Channels", "Award-Winning Creative Team"].map((item) => (
