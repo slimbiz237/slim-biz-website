@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { Link } from "react-router";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import {
   ArrowRight, CheckCircle, Clock, Users, Star, Award,
   BookOpen, Monitor, Palette, Video, BarChart3, Search,
