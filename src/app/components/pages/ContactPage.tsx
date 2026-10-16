@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Phone, Mail, MapPin, Send, CheckCircle, Instagram, Linkedin, Facebook, Clock } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, NAVY_MID, SERVICES, SectionTag, PageHero } from "../shared";
 
@@ -6,7 +6,17 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", company: "", service: "", budget: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
+  
+  useEffect(() => {
+    document.title = "Contact SLIM BIZ Marketing Agency | Yaoundé, Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Contact SLIM BIZ in Yaoundé, Cameroon. Call +237 657 202 002 or send a message about your marketing goals. We reply within one working day.";
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -184,8 +194,14 @@ export default function ContactPage() {
                       style={{ background: NAVY, fontFamily: "'Inter', sans-serif" }}
                       onMouseEnter={(e) => (e.currentTarget.style.background = NAVY_MID)}
                       onMouseLeave={(e) => (e.currentTarget.style.background = NAVY)}>
-                      {loading ? "Sending…" : <> Send Message <Send size={16} className="group-hover:translate-x-1 transition-transform" /> </>}
-                    </button>
+                                            {loading ? (
+                        <span key="sending">Sending…</span>
+                      ) : (
+                        <span key="idle" className="flex items-center gap-3">
+                          <span>Send Message</span>
+                          <Send size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      )}
 
                     <p className="text-center text-muted-foreground text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>
                       We respond within one working day. No spam, ever.
