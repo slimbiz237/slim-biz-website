@@ -194,7 +194,7 @@ export default function ContactPage() {
                       style={{ background: NAVY, fontFamily: "'Inter', sans-serif" }}
                       onMouseEnter={(e) => (e.currentTarget.style.background = NAVY_MID)}
                       onMouseLeave={(e) => (e.currentTarget.style.background = NAVY)}>
-                                            {loading ? (
+                                                                 {loading ? (
                         <span key="sending">Sending…</span>
                       ) : (
                         <span key="idle" className="flex items-center gap-3">
