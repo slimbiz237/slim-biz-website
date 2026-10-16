@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { Calendar, Clock, Search, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, SectionTagLeft, PageHero } from "../shared";
-
 function imgUrl(img?: string): string | undefined {
   if (!img) return undefined;
   if (img.startsWith("http")) return img;
   return `https://images.unsplash.com/${img}?w=700&h=450&fit=crop&auto=format`;
 }
+
+type BlogPost = {
   title: string; date: string; category: string; tag: string;
   readTime: string; excerpt: string; body: string; author: string; img?: string;
   slug: string;
