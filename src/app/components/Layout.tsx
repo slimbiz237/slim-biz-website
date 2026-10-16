@@ -69,11 +69,7 @@ function LangToggle() {
     </div>
   );
 }
-        </button>
-      ))}
-    </div>
-  );
-}
+       
 
 function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const imgH = size === "sm" ? "h-8" : size === "lg" ? "h-14" : "h-10";
