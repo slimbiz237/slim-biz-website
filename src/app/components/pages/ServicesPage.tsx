@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { Link } from "react-router";
 import { Link } from "react-router";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, NAVY_MID, ORANGE_HVR, SERVICES, SectionTag, PageHero } from "../shared";
@@ -11,6 +13,17 @@ const PROCESS = [
 ];
 
 export default function ServicesPage() {
+  useEffect(() => {
+    document.title = "Marketing & Advertising Services in Cameroon | SLIM BIZ";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "TV, radio, outdoor, digital and social media marketing in Yaoundé, Cameroon. SLIM BIZ plans, creates and runs integrated campaigns across every channel.";
+  }, []);
+
   return (
     <>
       <PageHero
