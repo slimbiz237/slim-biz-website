@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { CheckCircle, X, ArrowRight, Phone, ChevronDown, ChevronUp } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, PageHero } from "../shared";
@@ -128,6 +128,25 @@ const PRICING_FAQS = [
 
 export default function PricingPage() {
   const { lang } = useLang();
+
+  useEffect(() => {
+    document.title = t(
+      lang,
+      "Marketing Packages & Pricing in Cameroon | SLIM BIZ",
+      "Tarifs & Formules Marketing au Cameroun | SLIM BIZ"
+    );
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = t(
+      lang,
+      "Clear monthly marketing packages from 100,000 FCFA: social media, ads, SEO and video. Fixed pricing for SMEs and enterprises in Cameroon.",
+      "Formules marketing mensuelles claires dès 100 000 FCFA : réseaux sociaux, publicité, SEO et vidéo. Tarifs fixes pour PME et grandes entreprises au Cameroun."
+    );
+  }, [lang]);
   const [showComparison, setShowComparison] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
