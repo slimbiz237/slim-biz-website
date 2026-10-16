@@ -13,6 +13,7 @@ import FAQPage from "./components/pages/FAQPage";
 import CareersPage from "./components/pages/CareersPage";
 import ConsultationPage from "./components/pages/ConsultationPage";
 import TrainingPage from "./components/pages/TrainingPage";
+import TrainingRegistrationPage from "./components/pages/TrainingRegistrationPage";
 import AdminPage from "./components/pages/AdminPage";
 
 export const router = createBrowserRouter([
@@ -25,18 +26,19 @@ export const router = createBrowserRouter([
     Component: Layout,
     children: [
       { index: true, Component: HomePage },
-      { path: "about",        Component: AboutPage },
-      { path: "services",     Component: ServicesPage },
-      { path: "portfolio",    Component: PortfolioPage },
-      { path: "pricing",      Component: PricingPage },
-      { path: "testimonials", Component: TestimonialsPage },
-      { path: "blog",         Component: BlogPage },
-      { path: "blog/:slug",   Component: BlogPostPage },
-      { path: "contact",      Component: ContactPage },
-      { path: "faq",          Component: FAQPage },
-      { path: "careers",      Component: CareersPage },
-      { path: "consultation", Component: ConsultationPage },
-      { path: "training",     Component: TrainingPage },
+      { path: "about",             Component: AboutPage },
+      { path: "services",          Component: ServicesPage },
+      { path: "portfolio",         Component: PortfolioPage },
+      { path: "pricing",           Component: PricingPage },
+      { path: "testimonials",      Component: TestimonialsPage },
+      { path: "blog",              Component: BlogPage },
+      { path: "blog/:slug",        Component: BlogPostPage },
+      { path: "contact",           Component: ContactPage },
+      { path: "faq",               Component: FAQPage },
+      { path: "careers",           Component: CareersPage },
+      { path: "consultation",      Component: ConsultationPage },
+      { path: "training",          Component: TrainingPage },
+      { path: "training/register", Component: TrainingRegistrationPage },
     ],
   },
 ]);
