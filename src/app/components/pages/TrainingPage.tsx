@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { ElementType } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import {
   ArrowRight, CheckCircle, Clock, Users, Award,
   BookOpen, Monitor, Palette, Video, BarChart3, Search,
@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, TEAM, SectionTag, SectionTagLeft } from "../shared";
 
-// ─── Official course data from SLIMBIZ DIGITAL ACADEMY Price List 2026 ────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 type Track = "Digital Marketing" | "Graphic Design & Motion" | "Video & Photography" | "Web, Tech & AI";
 
 type Course = {
@@ -20,15 +20,52 @@ type Course = {
   track: Track;
   icon: ElementType;
   popular?: boolean;
+  img?: string; // optional: Unsplash photo id, e.g. "photo-1586125674857-4eb86880905d"
 };
 
+const REGISTER_PATH = "/training/register";
+
+// ─── Images ───────────────────────────────────────────────────────────────────
+// Each track has a small pool of photos. A course uses the pool by its id,
+// or its own `img` if you set one. If a photo fails to load, the card shows
+// a coloured panel with the course icon instead, so nothing ever looks broken.
+const TRACK_IMAGES: Record<Track, string[]> = {
+  "Digital Marketing": [
+    "photo-1460925895917-afdab827c52f",
+    "photo-1551288049-bebda4e38f71",
+    "photo-1611162617213-7d7a39e9b1d7",
+    "photo-1586125674857-4eb86880905d",
+  ],
+  "Graphic Design & Motion": [
+    "photo-1561070791-2526d30994b5",
+    "photo-1558655146-9f40138edfeb",
+  ],
+  "Video & Photography": [
+    "photo-1516035069371-29a1b244cc32",
+    "photo-1492691527719-9d1e07e534b4",
+    "photo-1536240478700-b869070f9279",
+  ],
+  "Web, Tech & AI": [
+    "photo-1498050108023-c5249f4df085",
+    "photo-1555066931-4365d14bab8c",
+    "photo-1677442136019-21780ecad995",
+    "photo-1550751827-4bd374c3f58b",
+  ],
+};
+
+function courseImage(c: Course): string {
+  const id = c.img ?? TRACK_IMAGES[c.track][c.id % TRACK_IMAGES[c.track].length];
+  return `https://images.unsplash.com/${id}?w=640&h=400&fit=crop&auto=format`;
+}
+
+// ─── Official course data from SLIMBIZ DIGITAL ACADEMY Price List 2026 ────────
 const COURSES: Course[] = [
   // Digital Marketing
   { id: 1,  name: "Digital Marketing",                duration: "6 mois", price: "500 000 FCFA", priceNum: 500000, track: "Digital Marketing",       icon: Globe,     popular: true },
   { id: 2,  name: "Community Management",             duration: "3 mois", price: "100 000 FCFA", priceNum: 100000, track: "Digital Marketing",       icon: Users },
   { id: 3,  name: "Social Media Marketing",           duration: "2 mois", price: "100 000 FCFA", priceNum: 100000, track: "Digital Marketing",       icon: BarChart3, popular: true },
   { id: 13, name: "SEO / Search Engine Optimization", duration: "2 mois", price: "150 000 FCFA", priceNum: 150000, track: "Digital Marketing",       icon: Search },
-  { id: 14, name: "Google Ads / PPC",                 duration: "1 mois", price: "100 000 FCFA", priceNum: 100000, track: "Digital Marketing",       icon: Monitor },
+  { id: 14, name: "Google Ads / PPC",                 duration: "1 mois", price: "100 000 FCFA", priceNum: 100000, track: "Digital Marketing",       icon: Monitor,   img: "photo-1586125674857-4eb86880905d" },
   { id: 15, name: "Facebook & Instagram Ads",         duration: "1 mois", price: "100 000 FCFA", priceNum: 100000, track: "Digital Marketing",       icon: Users },
   { id: 16, name: "TikTok Marketing",                 duration: "1 mois", price: "75 000 FCFA",  priceNum: 75000,  track: "Digital Marketing",       icon: Video },
   { id: 17, name: "WhatsApp Business & Marketing",    duration: "1 mois", price: "75 000 FCFA",  priceNum: 75000,  track: "Digital Marketing",       icon: Globe },
@@ -76,58 +113,78 @@ const TRACKS: { key: Track; icon: ElementType; color: string; desc: string }[] =
   { key: "Web, Tech & AI",          icon: Code,      color: ORANGE, desc: "Web creation, development, data analysis, AI, cybersecurity, cloud, and automation." },
 ];
 
-const REGISTER_PATH = "/training/register";
+const trackColor = (t: Track) => TRACKS.find((x) => x.key === t)!.color;
 
-// ─── Course row ───────────────────────────────────────────────────────────────
-function CourseRow({ course, onEnrol }: { course: Course; onEnrol: (name: string) => void }) {
-  const trackColor = (["Digital Marketing", "Video & Photography"] as Track[]).includes(course.track) ? NAVY : ORANGE;
+// ─── Course card ──────────────────────────────────────────────────────────────
+function CourseCard({ course }: { course: Course }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const color = trackColor(course.track);
 
   return (
-    <div className="grid grid-cols-12 items-center gap-0 border-b border-border bg-card transition-colors"
-      onMouseEnter={(e) => (e.currentTarget.style.background = `${trackColor}08`)}
-      onMouseLeave={(e) => (e.currentTarget.style.background = "")}>
-      <div className="col-span-1 px-4 py-4 text-center">
-        <span className="text-xs" style={{ fontFamily: "'Playfair Display', serif", color: "var(--muted-foreground)" }}>
-          {String(course.id).padStart(2, "0")}
-        </span>
-      </div>
-      <div className="col-span-1 px-2 py-4 flex justify-center">
-        <div className="w-8 h-8 flex items-center justify-center" style={{ background: `${trackColor}15` }}>
-          <course.icon size={16} style={{ color: trackColor }} />
-        </div>
-      </div>
-      <div className="col-span-5 px-4 py-4 flex items-center gap-2">
-        <span className="text-foreground text-sm leading-snug" style={{ fontFamily: "'Inter', sans-serif" }}>{course.name}</span>
-        {course.popular && (
-          <span className="text-[9px] px-1.5 py-0.5 tracking-widest uppercase text-white shrink-0"
-            style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}>Hot</span>
+    <article
+      className="flex flex-col bg-card border border-border overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+    >
+      {/* Image */}
+      <div className="relative h-44 sm:h-40 lg:h-44 overflow-hidden" style={{ background: `${color}` }}>
+        {!imgFailed ? (
+          <img
+            src={courseImage(course)}
+            alt={course.name}
+            loading="lazy"
+            onError={() => setImgFailed(true)}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${color}, ${NAVY_DARK})` }}>
+            <course.icon size={44} className="text-white/80" />
+          </div>
         )}
-      </div>
-      <div className="col-span-2 px-4 py-4">
-        <span className="flex items-center gap-1.5 text-xs text-muted-foreground" style={{ fontFamily: "'Inter', sans-serif" }}>
-          <Clock size={11} /> <span>{course.duration}</span>
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,18,64,0.55), transparent 55%)" }} />
+        {course.popular && (
+          <span className="absolute top-3 left-3 text-[10px] px-2 py-1 tracking-widest uppercase text-white"
+            style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}>
+            Popular
+          </span>
+        )}
+        <span className="absolute bottom-3 left-3 text-[10px] tracking-[0.15em] uppercase text-white/90"
+          style={{ fontFamily: "'Inter', sans-serif" }}>
+          {course.track}
         </span>
       </div>
-      <div className="col-span-2 px-4 py-4">
-        <span className="text-sm" style={{ fontFamily: "'Playfair Display', serif", color: trackColor }}>{course.price}</span>
+
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-5">
+        <h3 className="text-foreground leading-snug mb-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.05rem" }}>
+          {course.name}
+        </h3>
+
+        <div className="flex items-center justify-between text-sm mb-5">
+          <span className="flex items-center gap-1.5 text-muted-foreground" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Clock size={14} /> <span>{course.duration}</span>
+          </span>
+          <span style={{ fontFamily: "'Playfair Display', serif", color, fontSize: "1rem" }}>{course.price}</span>
+        </div>
+
+        {/* Enrol button, always under the card content */}
+        <Link
+          to={`${REGISTER_PATH}?course=${encodeURIComponent(course.name)}`}
+          className="mt-auto flex items-center justify-center gap-2 w-full py-3.5 text-white text-sm font-medium tracking-wide transition-colors group"
+          style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = ORANGE_HVR)}
+          onMouseLeave={(e) => (e.currentTarget.style.background = ORANGE)}
+        >
+          <span>Enrol Now</span>
+          <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
-      <div className="col-span-1 px-4 py-4">
-        <button onClick={() => onEnrol(course.name)}
-          className="text-xs px-3 py-1.5 text-white transition-colors whitespace-nowrap"
-          style={{ background: trackColor, fontFamily: "'Inter', sans-serif" }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
-          Enrol
-        </button>
-      </div>
-    </div>
+    </article>
   );
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function TrainingPage() {
-  const navigate = useNavigate();
   const [activeTrack, setActiveTrack] = useState<Track | "All">("All");
+  const [query, setQuery] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -141,38 +198,40 @@ export default function TrainingPage() {
     meta.content = "40 professional courses in digital marketing, design, video, web development and AI in Yaoundé, Cameroon. In-person, online or hybrid, with certificate.";
   }, []);
 
-  const filtered = activeTrack === "All" ? COURSES : COURSES.filter((c) => c.track === activeTrack);
+  const filtered = COURSES.filter((c) => {
+    const inTrack = activeTrack === "All" || c.track === activeTrack;
+    const inSearch = query.trim() === "" || c.name.toLowerCase().includes(query.trim().toLowerCase());
+    return inTrack && inSearch;
+  });
 
-  const handleEnrol = (name: string) => {
-    navigate(`${REGISTER_PATH}?course=${encodeURIComponent(name)}`);
-  };
+  const showCourses = () => document.getElementById("courses")?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <>
       {/* ─── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-36 pb-16 overflow-hidden" style={{ background: NAVY_DARK }}>
+      <section className="relative pt-28 sm:pt-36 pb-14 sm:pb-16 overflow-hidden" style={{ background: NAVY_DARK }}>
         <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: ORANGE }} />
         <div className="absolute inset-0 opacity-10">
           <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&h=600&fit=crop&auto=format" alt="" className="w-full h-full object-cover" />
         </div>
         <div className="relative max-w-7xl mx-auto px-5 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
             <div>
               <div className="flex items-center gap-3 mb-5">
-                <div className="h-px w-10" style={{ background: ORANGE }} />
-                <p className="text-xs tracking-[0.3em] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>
+                <div className="h-px w-10 shrink-0" style={{ background: ORANGE }} />
+                <p className="text-[11px] sm:text-xs tracking-[0.25em] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>
                   SLIM BIZ Digital Academy · RC/YAO/2025/B/696
                 </p>
               </div>
-              <h1 className="text-4xl lg:text-5xl text-white mb-5 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-5 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
                 40 Courses.<br />
                 One Goal:<br />
                 <span className="italic" style={{ color: ORANGE }}>Your Digital Success.</span>
               </h1>
-              <p className="text-white/70 text-lg leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
                 SLIM BIZ Digital Academy offers professional training in digital marketing, design, video, web and technology — with certification, internship, and personalised coaching. Available in-person, online or hybrid.
               </p>
-              <div className="flex flex-wrap gap-6 mb-8">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-5 sm:gap-6 mb-8">
                 {[
                   { v: "40", l: "Courses" },
                   { v: "10,000 FCFA", l: "Registration fee" },
@@ -180,29 +239,29 @@ export default function TrainingPage() {
                   { v: "3 modes", l: "In-Person · Online · Hybrid" },
                 ].map((s) => (
                   <div key={s.l}>
-                    <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.35rem" }}>{s.v}</p>
+                    <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.25rem" }}>{s.v}</p>
                     <p className="text-white/45 text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>{s.l}</p>
                   </div>
                 ))}
               </div>
-              <div className="flex gap-4 flex-wrap">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link to={REGISTER_PATH}
-                  className="inline-flex items-center gap-3 px-7 py-4 text-white text-sm font-medium tracking-wide transition-colors group"
+                  className="inline-flex items-center justify-center gap-3 px-7 py-4 text-white text-sm font-medium tracking-wide transition-colors group"
                   style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = ORANGE_HVR)}
                   onMouseLeave={(e) => (e.currentTarget.style.background = ORANGE)}>
                   <span>Enrol Now</span> <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <a href="#courses"
-                  className="inline-flex items-center gap-2 px-7 py-4 text-white text-sm border border-white/25 hover:border-white transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 text-white text-sm border border-white/25 hover:border-white transition-colors"
                   style={{ fontFamily: "'Inter', sans-serif" }}>
-                  View Courses
+                  <span>View Courses</span>
                 </a>
               </div>
             </div>
 
             {/* Credentials block */}
-            <div className="border border-white/10 p-8" style={{ background: "rgba(255,255,255,0.04)" }}>
+            <div className="border border-white/10 p-6 sm:p-8" style={{ background: "rgba(255,255,255,0.04)" }}>
               <p className="text-xs tracking-[0.2em] uppercase mb-5" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>SLIM BIZ SARL — Official Information</p>
               <div className="space-y-3">
                 {[
@@ -216,7 +275,7 @@ export default function TrainingPage() {
                 ].map((item) => (
                   <div key={item.label} className="grid grid-cols-5 gap-3 text-sm border-b pb-2" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
                     <span className="col-span-2 text-xs" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.45)" }}>{item.label}</span>
-                    <span className="col-span-3 text-white/85" style={{ fontFamily: "'Inter', sans-serif" }}>{item.value}</span>
+                    <span className="col-span-3 text-white/85 break-words" style={{ fontFamily: "'Inter', sans-serif" }}>{item.value}</span>
                   </div>
                 ))}
               </div>
@@ -231,14 +290,14 @@ export default function TrainingPage() {
         </div>
       </section>
 
-      {/* ─── Track tabs ───────────────────────────────────────────────────── */}
-      <section className="sticky top-20 z-40 border-b border-border" style={{ background: "var(--background)" }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-10 flex overflow-x-auto">
+      {/* ─── Track tabs (scroll sideways on mobile) ───────────────────────── */}
+      <section className="sticky top-16 lg:top-20 z-40 border-b border-border" style={{ background: "var(--background)" }}>
+        <div className="max-w-7xl mx-auto px-2 sm:px-5 lg:px-10 flex overflow-x-auto">
           {[{ key: "All" as const, label: "All Courses", count: COURSES.length }, ...TRACKS.map((t) => ({ key: t.key, label: t.key, count: COURSES.filter((c) => c.track === t.key).length }))].map((tab) => {
             const active = activeTrack === tab.key;
             return (
               <button key={tab.key} onClick={() => setActiveTrack(tab.key)}
-                className="flex items-center gap-2 px-5 py-4 text-sm whitespace-nowrap border-b-2 transition-all"
+                className="flex items-center gap-2 px-4 sm:px-5 py-4 text-sm whitespace-nowrap border-b-2 transition-all shrink-0"
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   borderColor: active ? ORANGE : "transparent",
@@ -254,52 +313,48 @@ export default function TrainingPage() {
         </div>
       </section>
 
-      {/* ─── Course table ─────────────────────────────────────────────────── */}
-      <section id="courses" className="py-20 bg-background">
+      {/* ─── Course cards ─────────────────────────────────────────────────── */}
+      <section id="courses" className="py-14 sm:py-20 bg-background scroll-mt-32">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8">
             <div>
               <SectionTagLeft label="Official Catalogue 2026" />
-              <h2 className="text-3xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
-                {filtered.length} course{filtered.length > 1 ? "s" : ""} available
+              <h2 className="text-2xl sm:text-3xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
+                {filtered.length} course{filtered.length !== 1 ? "s" : ""} available
               </h2>
+              <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Registration fee for all programmes: <strong style={{ color: ORANGE }}>10,000 FCFA</strong> (not included in the course price)
+              </p>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>Registration fee (all programmes)</p>
-              <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif", color: ORANGE }}>10 000 FCFA</p>
+            <div className="relative w-full lg:w-80">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search a course..."
+                className="w-full pl-11 pr-4 py-3 bg-card border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+                onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
+                onBlur={(e) => (e.currentTarget.style.borderColor = "")}
+              />
             </div>
           </div>
 
-          {/* Table header */}
-          <div className="grid grid-cols-12 gap-0 border border-border" style={{ background: NAVY_DARK }}>
-            <div className="col-span-1 px-4 py-3"><p className="text-[10px] tracking-widest uppercase text-white/40" style={{ fontFamily: "'Inter', sans-serif" }}>N°</p></div>
-            <div className="col-span-1 px-2 py-3"></div>
-            <div className="col-span-5 px-4 py-3"><p className="text-[10px] tracking-widest uppercase text-white/40" style={{ fontFamily: "'Inter', sans-serif" }}>Course</p></div>
-            <div className="col-span-2 px-4 py-3"><p className="text-[10px] tracking-widest uppercase text-white/40" style={{ fontFamily: "'Inter', sans-serif" }}>Duration</p></div>
-            <div className="col-span-2 px-4 py-3"><p className="text-[10px] tracking-widest uppercase text-white/40" style={{ fontFamily: "'Inter', sans-serif" }}>Price</p></div>
-            <div className="col-span-1 px-4 py-3"></div>
-          </div>
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+              {filtered.map((c) => <CourseCard key={c.id} course={c} />)}
+            </div>
+          ) : (
+            <div className="text-center py-16 text-muted-foreground" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <p>No course found.</p>
+              <button onClick={() => { setQuery(""); setActiveTrack("All"); }} className="underline mt-2" style={{ color: ORANGE }}>
+                Clear filters
+              </button>
+            </div>
+          )}
 
-          <div className="border-x border-b border-border">
-            {(activeTrack === "All" ? TRACKS.map((t) => t.key) : [activeTrack]).map((track) => {
-              const rows = filtered.filter((c) => c.track === track);
-              if (!rows.length) return null;
-              const tConfig = TRACKS.find((t) => t.key === track)!;
-              return (
-                <div key={track}>
-                  <div className="px-4 py-2.5 flex items-center gap-3" style={{ background: `${tConfig.color}10`, borderBottom: `1px solid var(--border)` }}>
-                    <tConfig.icon size={14} style={{ color: tConfig.color }} />
-                    <p className="text-xs tracking-[0.2em] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: tConfig.color }}>{track}</p>
-                    <span className="text-xs" style={{ fontFamily: "'Inter', sans-serif", color: "var(--muted-foreground)" }}>· {rows.length} course{rows.length > 1 ? "s" : ""}</span>
-                  </div>
-                  {rows.map((c) => <CourseRow key={c.id} course={c} onEnrol={handleEnrol} />)}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-xs text-muted-foreground" style={{ fontFamily: "'Inter', sans-serif" }}>
-            <span>* Registration fee: 10,000 FCFA (not included in the course price)</span>
+          <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-x-8 gap-y-2 text-xs text-muted-foreground" style={{ fontFamily: "'Inter', sans-serif" }}>
             <span>* Certificate + internship + coaching included depending on the programme</span>
             <span>* Available in-person, online or hybrid</span>
           </div>
@@ -307,11 +362,11 @@ export default function TrainingPage() {
       </section>
 
       {/* ─── Track descriptions ───────────────────────────────────────────── */}
-      <section className="py-20 bg-secondary">
+      <section className="py-14 sm:py-20 bg-secondary">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-12">
             <SectionTag label="Our 4 Tracks" />
-            <h2 className="text-3xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-2xl sm:text-3xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
               Choose Your Track
             </h2>
           </div>
@@ -334,11 +389,8 @@ export default function TrainingPage() {
                       From {cheapest.toLocaleString("en-GB")} FCFA
                     </span>
                   </div>
-                  <button onClick={() => {
-                      setActiveTrack(t.key);
-                      document.getElementById("courses")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="mt-4 flex items-center justify-center gap-2 py-2.5 text-white text-xs font-medium transition-colors"
+                  <button onClick={() => { setActiveTrack(t.key); setQuery(""); showCourses(); }}
+                    className="mt-4 flex items-center justify-center gap-2 py-3 text-white text-xs font-medium transition-colors"
                     style={{ background: t.color, fontFamily: "'Inter', sans-serif" }}
                     onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
                     onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
@@ -352,12 +404,12 @@ export default function TrainingPage() {
       </section>
 
       {/* ─── Why Academy ──────────────────────────────────────────────────── */}
-      <section className="py-20" style={{ background: NAVY_DARK }}>
+      <section className="py-14 sm:py-20" style={{ background: NAVY_DARK }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <SectionTagLeft label="Why SLIM BIZ Academy?" />
-              <h2 className="text-3xl text-white mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-2xl sm:text-3xl text-white mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Training by Practitioners, Not Theorists
               </h2>
               <div className="space-y-4">
@@ -398,15 +450,15 @@ export default function TrainingPage() {
       </section>
 
       {/* ─── Events & Conferences ─────────────────────────────────────────── */}
-      <section className="py-20 bg-background">
+      <section className="py-14 sm:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px w-8" style={{ background: ORANGE }} />
                 <p className="text-xs tracking-[0.3em] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>Beyond the Classroom</p>
               </div>
-              <h2 className="text-3xl lg:text-4xl text-foreground mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl text-foreground mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Conferences, Seminars & Professional Events
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -431,7 +483,7 @@ export default function TrainingPage() {
                 ))}
               </div>
             </div>
-            <div className="border border-border p-8 lg:p-10" style={{ background: NAVY_DARK }}>
+            <div className="border border-border p-6 sm:p-8 lg:p-10" style={{ background: NAVY_DARK }}>
               <p className="text-xs tracking-[0.25em] uppercase mb-6" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>Book SLIM BIZ for Your Event</p>
               <div className="space-y-5 mb-8">
                 {[
@@ -442,7 +494,7 @@ export default function TrainingPage() {
                 ].map((item) => (
                   <div key={item.label} className="border-b pb-4" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
                     <p className="text-xs mb-1" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.4)" }}>{item.label}</p>
-                    <p className="text-white text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{item.value}</p>
+                    <p className="text-white text-sm leading-relaxed break-words" style={{ fontFamily: "'Inter', sans-serif" }}>{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -459,15 +511,15 @@ export default function TrainingPage() {
       </section>
 
       {/* ─── FAQ ──────────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-secondary">
+      <section className="py-14 sm:py-20 bg-secondary">
         <div className="max-w-4xl mx-auto px-5 lg:px-10">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-12">
             <SectionTag label="FAQ" />
-            <h2 className="text-3xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>FAQ — SLIM BIZ Academy</h2>
+            <h2 className="text-2xl sm:text-3xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>FAQ — SLIM BIZ Academy</h2>
           </div>
           <div className="space-y-2">
             {[
-              { q: "How do I enrol?",                  a: "Click “Enrol” on any course, or open the registration page, and fill in the form. A registration fee of 10,000 FCFA is due at confirmation. Your application will be reviewed and you will receive a response within 1–2 business days." },
+              { q: "How do I enrol?",                  a: "Click “Enrol Now” on any course card, then fill in the registration form. A registration fee of 10,000 FCFA is due at confirmation. Your application will be reviewed and you will receive a response within 1–2 business days." },
               { q: "Are courses available online?",    a: "Yes. Every course is available in-person (Yaoundé), online or hybrid depending on the programme. Specify your preferred mode in the form." },
               { q: "Do I receive a certificate?",      a: "Yes. On completing your course you receive an official SLIM BIZ Digital Academy certificate. An internship and coaching are also offered depending on the programme conditions." },
               { q: "How does payment work?",           a: "The registration fee (10,000 FCFA) is payable at confirmation. The course fee can be paid by cash, Mobile Money or bank transfer. Payment plans can be discussed." },
@@ -496,10 +548,10 @@ export default function TrainingPage() {
       </section>
 
       {/* ─── Register CTA ─────────────────────────────────────────────────── */}
-      <section id="register" className="py-20" style={{ background: NAVY_DARK }}>
+      <section id="register" className="py-14 sm:py-20" style={{ background: NAVY_DARK }}>
         <div className="max-w-4xl mx-auto px-5 lg:px-10 text-center">
           <SectionTag label="Official Registration" />
-          <h2 className="text-3xl text-white mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-2xl sm:text-3xl text-white mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
             Ready to Join SLIM BIZ Digital Academy?
           </h2>
           <p className="text-sm mb-8" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
@@ -507,7 +559,7 @@ export default function TrainingPage() {
             <strong style={{ color: ORANGE }}>10,000 FCFA</strong>
           </p>
           <Link to={REGISTER_PATH}
-            className="inline-flex items-center gap-3 px-8 py-4 text-white text-sm font-medium tracking-wide transition-colors group"
+            className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 text-white text-sm font-medium tracking-wide transition-colors group"
             style={{ background: ORANGE, fontFamily: "'Inter', sans-serif" }}
             onMouseEnter={(e) => (e.currentTarget.style.background = ORANGE_HVR)}
             onMouseLeave={(e) => (e.currentTarget.style.background = ORANGE)}>
@@ -522,7 +574,7 @@ export default function TrainingPage() {
             ].map((item) => (
               <div key={item.label} className="p-4 border text-center" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
                 <p className="text-xs mb-1" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>{item.label}</p>
-                <p className="text-white/70 text-xs whitespace-pre-line" style={{ fontFamily: "'Inter', sans-serif" }}>{item.value}</p>
+                <p className="text-white/70 text-xs whitespace-pre-line break-words" style={{ fontFamily: "'Inter', sans-serif" }}>{item.value}</p>
               </div>
             ))}
           </div>
