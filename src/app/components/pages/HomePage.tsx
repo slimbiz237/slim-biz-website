@@ -62,7 +62,7 @@ function HeroSection() {
           </div>
 
           <div className="mt-14 flex flex-wrap gap-6 items-center">
-            {["Google Partner", "Meta Business Partner", "Cannes Lions Finalist", "D&AD Award Winner"].map((b) => (
+            {["Partner to Admeup Digital Academy Rwanda", "Yoolearn24 Yaounde"].map((b) => (
               <div key={b} className="flex items-center gap-2">
                 <CheckCircle size={14} style={{ color: ORANGE }} />
                 <span className="text-white/60 text-xs tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>{b}</span>
@@ -115,7 +115,7 @@ function AboutPreview() {
             <div className="absolute -bottom-6 -right-6 w-48 h-36 flex items-end p-5 z-20" style={{ background: NAVY }}>
               <div>
                 <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem" }}>2018</p>
-                <p className="text-white/80 text-xs tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>Est. in Yaoundé</p>
+                <p className="text-white/80 text-xs tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>Center. in Yaoundé</p>
               </div>
             </div>
           </div>
