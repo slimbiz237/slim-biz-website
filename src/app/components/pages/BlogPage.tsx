@@ -56,6 +56,17 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  
+  useEffect(() => {
+    document.title = "Marketing Insights & Blog | SLIM BIZ Marketing Agency, Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Practical marketing, advertising and social media insights from SLIM BIZ, a marketing agency in Yaoundé, Cameroon. Read our latest articles.";
+  }, []);
 
   useEffect(() => {
     fetchAllPosts()
