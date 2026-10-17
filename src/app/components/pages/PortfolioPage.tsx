@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, PORTFOLIO, SectionTag, PageHero } from "../shared";
@@ -8,6 +8,17 @@ const ALL_TAGS = ["All", "Branding", "TV", "Digital", "Social", "OOH", "B2B", "F
 export default function PortfolioPage() {
   const [activeTag, setActiveTag] = useState("All");
   const [activeCase, setActiveCase] = useState<number | null>(null);
+  
+  useEffect(() => {
+    document.title = "Our Work & Case Studies | SLIM BIZ Marketing Agency, Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "See marketing and advertising campaigns by SLIM BIZ across TV, digital, social and outdoor, with the real business results behind each case study.";
+  }, []);
 
   const filtered = activeTag === "All"
     ? PORTFOLIO
