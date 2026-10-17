@@ -6,7 +6,7 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", company: "", service: "", budget: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+    const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
   useEffect(() => {
     document.title = "Contact SLIM BIZ Marketing Agency | Yaoundé, Cameroon";
     let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
@@ -202,7 +202,8 @@ export default function ContactPage() {
                           <Send size={16} className="group-hover:translate-x-1 transition-transform" />
                         </span>
                       )}
-
+                                          </button>
+                 
                     <p className="text-center text-muted-foreground text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>
                       We respond within one working day. No spam, ever.
                     </p>
