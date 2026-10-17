@@ -40,6 +40,34 @@ const REVIEWS: Review[] = [
   },
 ];
 
+// ─── Brands we have worked with ───────────────────────────────────────────────
+// Only list a business after the owner has agreed. Leave url as "" to hide the button.
+type Client = { name: string; sector: string; work: string; url: string };
+
+const CLIENTS: Client[] = [
+  {
+    name: "Carilux Beauty Cosmetics",
+    sector: "Skincare & Beauty Products",
+    work: "Social media community management, website development and paid advertising",
+    url: "", // add the Carilux Facebook page link here
+  },
+  {
+    name: "Berline Cosmetic Canada",
+    sector: "Skincare & Beauty Products",
+    work: "Social media community management, website development and paid advertising",
+    url: "https://www.facebook.com/BerlineCosmeticCanada",
+  },
+  {
+    name: "Miss Shasha Organic Skincare",
+    sector: "Skincare & Beauty Products",
+    work: "Social media community management, website development and paid advertising",
+    url: "https://www.facebook.com/missshashaorganicskincare/",
+  },
+];
+
+const initials = (name: string) =>
+  name.split(" ").filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
 export default function TestimonialsPage() {
   useEffect(() => {
     document.title = "Client Reviews | SLIM BIZ Marketing Agency, Yaoundé, Cameroon";
@@ -136,6 +164,43 @@ export default function TestimonialsPage() {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Brands we have worked with */}
+      <section className="py-16 lg:py-24 bg-secondary">
+        <div className="max-w-6xl mx-auto px-5 lg:px-10">
+          <div className="text-center mb-12">
+            <SectionTag label="Our Clients" />
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl text-foreground mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Brands We've Worked With
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Real businesses we support with strategy, content and advertising. Visit their pages to see their brands.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {CLIENTS.map((c) => (
+              <div key={c.name} className="bg-card border border-border p-6 flex flex-col">
+                <div className="w-14 h-14 flex items-center justify-center mb-5 text-white"
+                  style={{ background: NAVY, fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}>
+                  {initials(c.name)}
+                </div>
+                <h3 className="text-foreground mb-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}>{c.name}</h3>
+                <p className="text-xs tracking-wide mb-4" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>{c.sector}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5 flex-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span>What we do: </span><span>{c.work}</span>
+                </p>
+                {c.url && (
+                  <a href={c.url} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-3 text-white text-sm font-medium transition-colors"
+                    style={{ background: NAVY, fontFamily: "'Inter', sans-serif" }}>
+                    <span>Visit their page</span> <ExternalLink size={13} />
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
