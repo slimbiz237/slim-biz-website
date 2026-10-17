@@ -49,7 +49,7 @@ const CLIENTS: Client[] = [
     name: "Carilux Beauty Cosmetics",
     sector: "Skincare & Beauty Products",
     work: "Social media community management, website development and paid advertising",
-    url: "", // add the Carilux Facebook page link here
+        url: "https://www.facebook.com/profile.php?id=61558369291183",
   },
   {
     name: "Berline Cosmetic Canada",
