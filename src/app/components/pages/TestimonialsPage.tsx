@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router";
 import { Star, ArrowRight, TrendingUp, ExternalLink } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, TESTIMONIALS, SectionTag, PageHero } from "../shared";
@@ -23,6 +24,16 @@ const SUCCESS_METRICS = [
 ];
 
 export default function TestimonialsPage() {
+    useEffect(() => {
+    document.title = "Client Reviews & Success Stories | SLIM BIZ Marketing Agency, Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Read what clients say about SLIM BIZ, a marketing and advertising agency in Yaoundé, Cameroon, and see our Google reviews and campaign results.";
+  }, []);
   return (
     <>
       <PageHero
