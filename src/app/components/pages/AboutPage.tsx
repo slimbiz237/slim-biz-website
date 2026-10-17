@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router";
 import { CheckCircle, ArrowRight, Award, Users, Zap, TrendingUp, Target, Linkedin } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, NAVY_MID, ORANGE_HVR, TEAM, STATS, SectionTag, SectionTagLeft, PageHero } from "../shared";
@@ -14,6 +15,16 @@ const VALUES = [
 ];
 
 export default function AboutPage() {
+    useEffect(() => {
+    document.title = "About SLIM BIZ | Marketing & Advertising Agency in Yaoundé, Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Meet SLIM BIZ, a full-service marketing and advertising agency in Yaoundé, Cameroon. Senior-led strategy, in-house creative and integrated TV, radio, outdoor and digital campaigns.";
+  }, []);
   return (
     <>
       <PageHero
