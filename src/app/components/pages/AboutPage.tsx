@@ -11,7 +11,7 @@ const VALUES = [
   { icon: Zap,         title: "In-House Creative Studio", desc: "From TV commercials to Instagram carousels — we produce everything in-house for faster turnaround and tighter brand control." },
   { icon: TrendingUp,  title: "Performance-First",       desc: "Every campaign is built around business KPIs. We optimize for awareness, consideration, conversion, and retention — not vanity metrics." },
   { icon: CheckCircle, title: "Strategic Media Planning", desc: "We combine media buying expertise across digital platforms, broadcast, print, and OOH to maximize reach and frequency within your budget." },
-  { icon: Award,       title: "Award-Winning Work",       desc: "Recognized across Cannes Lions, D&AD, and industry awards for creative excellence — but proudest of the business results we deliver." },
+  { icon: Award,       title: "Award-Winning Work",       desc: "CEO's Digiatl Ecomnomy project Recognise as Best Digital Economy Project at the 2022 international saloon for young entrepreneurs in Cameroon." },
 ];
 
 export default function AboutPage() {
@@ -50,7 +50,7 @@ export default function AboutPage() {
               >
                 <div>
                   <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.75rem", lineHeight: 1 }}>2018</p>
-                  <p className="text-white/60 text-xs tracking-[0.2em] uppercase mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Est. in Yaoundé</p>
+                  <p className="text-white/60 text-xs tracking-[0.2em] uppercase mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>Center Region. in Yaoundé</p>
                 </div>
               </div>
               <div
@@ -69,10 +69,10 @@ export default function AboutPage() {
                 Traditional Reach. Digital Precision. One Integrated Strategy.
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-5" style={{ fontFamily: "'Inter', sans-serif" }}>
-                SLIM BIZ was created in 2018 with a simple belief: the best marketing campaigns aren't channel-specific — they're channel-agnostic. We started as a digital-first agency and quickly recognized that our clients needed something more: an integrated partner that could manage the full media landscape. In 2024, we officially registered as SLIM BIZ SARL, formalizing our commitment to growth and excellence across Cameroun.
+                SLIM BIZ was created in 2024 with a simple belief: the best marketing campaigns aren't channel-specific — they're channel-agnostic. We started as a digital-first agency and quickly recognized that our clients needed something more: an integrated partner that could manage the full media landscape. In 2024, we officially registered as SLIM BIZ SARL, formalizing our commitment to growth and excellence across Cameroun.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Today, we're one of the few agencies in Central and West Africa with genuine end-to-end capabilities — brand strategy, TV production, outdoor media buying, digital performance, and data analytics all under one roof. We've delivered over 800 campaigns for 150+ brands, managing more than 90B FCFA in total media spend.
+                Today, we're one of the agencies in Central and West Africa with genuine end-to-end capabilities — brand strategy, TV production, outdoor media buying, digital performance, and data analytics all under one roof. We've delivered over 50 campaigns for 15+ brands, managing more than 15milion FCFA in total media spend.
               </p>
               <div className="grid grid-cols-2 gap-8">
                 {STATS.map((s) => (
