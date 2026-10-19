@@ -5,6 +5,7 @@ import { CheckCircle, ArrowRight, Phone, Star, Clock, ExternalLink } from "lucid
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SERVICES, SectionTag } from "../shared";
 
 const SORTLIST_URL = "https://www.sortlist.com/agency/slim-biz-marketing-agency#reviews";
+const GOOGLE_REVIEW_URL = "https://www.google.com/maps/contrib/100748149562616474313/reviews?hl=en-GB";
 
 const BENEFITS = [
   { title: "Honest Assessment",       desc: "We'll review your current marketing honestly — including what's NOT worth doing — rather than just selling you services." },
@@ -307,18 +308,25 @@ export default function ConsultationPage() {
           <div className="p-6 sm:p-8 border text-center" style={{ borderColor: "rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)" }}>
             <div className="flex justify-center gap-1 mb-4">
               {[1, 2, 3, 4, 5].map((s) => (
-                <Star key={s} size={16} style={{ color: ORANGE, fill: s <= 4 ? ORANGE : "transparent" }} />
+                <Star key={s} size={16} style={{ color: ORANGE, fill: ORANGE }} />
               ))}
             </div>
-            <p className="leading-relaxed mb-5 text-sm sm:text-base" style={{ ...FONT, color: "rgba(255,255,255,0.85)" }}>
-              Carine, an entrepreneur at Carilux Beauty Cosmetics, worked with us on digital strategy to grow her brand's visibility. She enjoyed the creativity and mutual support, and recommends SLIM BIZ.
+            <p lang="fr" className="italic leading-relaxed mb-5 text-sm sm:text-base" style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.85)" }}>
+              “La meilleure agence! ma marque Carilux Cosmétiques est aujourd'hui reconnue partout au Cameroun grâce aux partenariat entre nous et slim biz Équipe pro, créative et efficace. Je recommande à 100%.”
             </p>
-            <p className="text-white text-sm" style={FONT}>Carine · Carilux Beauty Cosmetics</p>
-            <a href={SORTLIST_URL} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-sm font-medium"
-              style={{ ...FONT, color: ORANGE }}>
-              <span>Read the full review on Sortlist</span> <ExternalLink size={13} />
-            </a>
+            <p className="text-white text-sm" style={FONT}>Carilux Cosmetics · Google review</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 mt-4">
+              <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium"
+                style={{ ...FONT, color: ORANGE }}>
+                <span>See it on Google</span> <ExternalLink size={13} />
+              </a>
+              <a href={SORTLIST_URL} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium"
+                style={{ ...FONT, color: "rgba(255,255,255,0.7)" }}>
+                <span>Also reviewed on Sortlist (4.5/5)</span> <ExternalLink size={13} />
+              </a>
+            </div>
           </div>
           <div className="text-center mt-8">
             <a href="tel:+237657202002"
