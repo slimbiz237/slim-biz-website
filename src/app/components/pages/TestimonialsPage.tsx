@@ -7,6 +7,8 @@ import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, PageHero } from "../sh
 const GOOGLE_READ_URL = "https://share.google/pnzloYYmIlCC0jjwv";   // opens your Google reviews
 const GOOGLE_REVIEW_URL = "https://share.google/8vkvgkpqWWaB68FKL"; // "Leave us a review" button
 const SORTLIST_URL = "https://www.sortlist.com/agency/slim-biz-marketing-agency#reviews";
+const GOOGLE_CARILUX_REVIEW_URL = "https://www.google.com/maps/contrib/100748149562616474313/reviews?hl=en-GB";
+const GOOGLE_OLIVE_REVIEW_URL = "https://www.google.com/maps/contrib/116918460165268551598/reviews?hl=en-GB";
 
 // ─── Verified facts only ──────────────────────────────────────────────────────
 const FACTS = [
@@ -22,17 +24,45 @@ type Review = {
   role: string;
   service: string;
   rating: string;
-  summary: string;
+  stars: number;     // 1 to 5
+  quote?: string;    // the client's own words (use exactly as written)
+  summary?: string;  // use instead of quote if you only have a summary
+  lang?: string;     // "fr" or "en"
   source: string;
   url: string;
 };
 
 const REVIEWS: Review[] = [
   {
+    name: "Carilux Cosmetics",
+    role: "Client · Beauty & skincare brand",
+    service: "Marketing partnership",
+    rating: "5/5",
+    stars: 5,
+    quote:
+      "La meilleure agence! ma marque Carilux Cosmétiques est aujourd'hui reconnue partout au Cameroun grâce aux partenariat entre nous et slim biz Équipe pro, créative et efficace. Je recommande à 100%.",
+    lang: "fr",
+    source: "Google",
+    url: GOOGLE_CARILUX_REVIEW_URL,
+  },
+  {
+    name: "Princess Olive",
+    role: "Former digital marketing student",
+    service: "Digital marketing training",
+    rating: "5/5",
+    stars: 5,
+    quote:
+      "Congratulations to the CEO of this project who happens to be my digital marketing lecturer in 2022, I trust your expertise and experience",
+    lang: "en",
+    source: "Google",
+    url: GOOGLE_OLIVE_REVIEW_URL,
+  },
+  {
     name: "Carine",
     role: "Entrepreneur at Carilux Beauty Cosmetics",
     service: "Digital Strategy",
     rating: "4.5/5",
+    stars: 4,
     summary:
       "Carine worked with us to raise her brand's visibility and reach a wider audience. She enjoyed the collaboration, especially the mutual support and creativity, saw nothing to improve, and recommends SLIM BIZ.",
     source: "Sortlist",
@@ -49,7 +79,7 @@ const CLIENTS: Client[] = [
     name: "Carilux Beauty Cosmetics",
     sector: "Skincare & Beauty Products",
     work: "Social media community management, website development and paid advertising",
-        url: "https://www.facebook.com/profile.php?id=61558369291183",
+    url: "https://www.facebook.com/profile.php?id=61558369291183",
   },
   {
     name: "Berline Cosmetic Canada",
@@ -118,15 +148,15 @@ export default function TestimonialsPage() {
               <div key={r.name + r.source} className="bg-card border border-border p-6 sm:p-8 flex flex-col">
                 <div className="flex items-center gap-1 mb-4">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} size={16} style={{ color: ORANGE, fill: s <= 4 ? ORANGE : "transparent" }} />
+                    <Star key={s} size={16} style={{ color: ORANGE, fill: s <= r.stars ? ORANGE : "transparent" }} />
                   ))}
                   <span className="ml-2 text-sm text-foreground" style={{ fontFamily: "'Inter', sans-serif" }}>{r.rating}</span>
                 </div>
                 <p className="text-muted-foreground text-xs tracking-wide uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span>Service: </span><span>{r.service}</span>
                 </p>
-                <p className="text-foreground/85 leading-relaxed mb-6 flex-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {r.summary}
+                <p lang={r.lang} className={"text-foreground/85 leading-relaxed mb-6 flex-1" + (r.quote ? " italic" : "")} style={{ fontFamily: r.quote ? "'Playfair Display', serif" : "'Inter', sans-serif" }}>
+                  {r.quote ? `“${r.quote}”` : r.summary}
                 </p>
                 <div className="border-t border-border pt-5">
                   <p className="text-foreground text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>{r.name}</p>
