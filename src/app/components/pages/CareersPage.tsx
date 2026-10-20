@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { MapPin, Briefcase, Clock, ArrowRight, Send, CheckCircle, X } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, NAVY_MID, ORANGE_HVR, JOBS, TEAM, SectionTag, PageHero } from "../shared";
@@ -16,6 +16,17 @@ export default function CareersPage() {
   const [applied, setApplied] = useState<string | null>(null);
   const [appForm, setAppForm] = useState({ name: "", email: "", cv: "", message: "" });
   const [applyLoading, setApplyLoading] = useState(false);
+  
+  useEffect(() => {
+    document.title = "Careers at SLIM BIZ | Marketing Jobs in Yaoundé, Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Join SLIM BIZ, a marketing and advertising agency in Yaoundé, Cameroon. See current openings or send an open application.";
+  }, []);
 
   const setField = (k: string, v: string) => setAppForm((f) => ({ ...f, [k]: v }));
 
@@ -202,7 +213,14 @@ export default function CareersPage() {
                             style={{ background: NAVY, fontFamily: "'Inter', sans-serif" }}
                             onMouseEnter={(e) => (e.currentTarget.style.background = NAVY_MID)}
                             onMouseLeave={(e) => (e.currentTarget.style.background = NAVY)}>
-                            {applyLoading ? "Sending…" : <> Submit Application <Send size={14} /> </>}
+                                                        {applyLoading ? (
+                              <span key="sending">Sending…</span>
+                            ) : (
+                              <span key="idle" className="flex items-center gap-2">
+                                <span>Submit Application</span>
+                                <Send size={14} />
+                              </span>
+                            )}
                           </button>
                         </form>
                       )}
