@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, FAQS, SectionTag, PageHero } from "../shared";
@@ -8,6 +8,17 @@ const FAQ_CATEGORIES = ["All", "General", "Services", "Strategy", "Reporting", "
 export default function FAQPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  
+  useEffect(() => {
+    document.title = "FAQ | Marketing Agency Questions Answered | SLIM BIZ Cameroon";
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Answers to common questions about SLIM BIZ's marketing services, pricing, strategy and reporting. Marketing agency in Yaoundé, Cameroon.";
+  }, []);
 
   const filtered = activeCategory === "All" ? FAQS : FAQS.filter((f) => f.category === activeCategory);
 
