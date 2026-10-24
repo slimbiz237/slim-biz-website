@@ -1,12 +1,12 @@
-import ceoImg from "@/imports/Mbuntum_gilbert_neng-1.png";
-import lizethImg from "@/imports/Lizeth_Kemji-1.png";
-import digitalMediaDirectorImg from "@/imports/Mepipyou_Nouguep_Nadyane_Paola-1.png";
-import developerImg from "@/imports/Yofende_Louis_Kogah-1.png";
+import ceoImg from "@/imports/Mbuntum_gilbert_neng-1.webp";
+import lizethImg from "@/imports/Lizeth_Kemji-1.webp";
+import digitalMediaDirectorImg from "@/imports/Mepipyou_Nouguep_Nadyane_Paola-1.webp";
+import developerImg from "@/imports/Yofende_Louis_Kogah-1.webp";
 const projectWriterImg = "https://raw.githubusercontent.com/slimbiz237/slim-biz-website/main/src/imports/menda_promis_new.jpg.jpg";
-import pamelaJamesImg from "@/imports/31e4f30c-45fb-4042-b295-e6eaedca3b10-1.png";
-import rinaKnowlesImg from "@/imports/1234567-1.png";
-import pageHeroBg from "@/imports/image.png";
-import techCorpImg from "@/imports/slimbiz.png";
+import pamelaJamesImg from "@/imports/31e4f30c-45fb-4042-b295-e6eaedca3b10-1.webp";
+import rinaKnowlesImg from "@/imports/1234567-1.webp";
+import pageHeroBg from "@/imports/image.webp";
+import techCorpImg from "@/imports/slimbiz.webp";
 import linkedInBlogImg from "@/imports/WhatsApp_Image_2026-09-24_at_16.22.57-1.jpeg";
 import {
   Megaphone, Target, Globe, MousePointer2, PenTool, BarChart3,

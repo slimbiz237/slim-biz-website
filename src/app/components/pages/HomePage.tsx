@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import aboutImg from "@/imports/image01.png";
-import heroBg from "@/imports/image01.png";
+import aboutImg from "@/imports/image01.webp";
+import heroBg from "@/imports/image01.webp";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import {

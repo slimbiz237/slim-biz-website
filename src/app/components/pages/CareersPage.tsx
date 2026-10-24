@@ -3,7 +3,7 @@ import type { ReactNode, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTML
 import { Link } from "react-router";
 import { MapPin, Briefcase, ArrowRight, Send, CheckCircle } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, SectionTag, PageHero } from "../shared";
-import cultureImg from "@/imports/image_mf-1.png";
+import cultureImg from "@/imports/image_mf-1.webp";
 
 // ─── Open roles ───────────────────────────────────────────────────────────────
 // We are not hiring right now, so this list is empty on purpose.

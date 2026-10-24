@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { CheckCircle, ArrowRight, Award, Users, Zap, TrendingUp, Target, Linkedin } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, NAVY_MID, ORANGE_HVR, TEAM, STATS, SectionTag, SectionTagLeft, PageHero } from "../shared";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
-import ourStoryImg from "@/imports/image.png";
+import ourStoryImg from "@/imports/image.webp";
 
 const VALUES = [
   { icon: Target,      title: "Integrated Thinking",     desc: "We orchestrate traditional, digital, and social campaigns as one cohesive system — so every channel amplifies the others." },
