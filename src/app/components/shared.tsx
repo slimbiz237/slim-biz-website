@@ -6,11 +6,9 @@ const projectWriterImg = "https://raw.githubusercontent.com/slimbiz237/slim-biz-
 import pamelaJamesImg from "@/imports/31e4f30c-45fb-4042-b295-e6eaedca3b10-1.webp";
 import rinaKnowlesImg from "@/imports/1234567-1.webp";
 import pageHeroBg from "@/imports/image.webp";
-import techCorpImg from "@/imports/slimbiz.webp";
-import linkedInBlogImg from "@/imports/WhatsApp_Image_2026-09-24_at_16.22.57-1.jpeg";
 import {
-  Megaphone, Target, Globe, MousePointer2, PenTool, BarChart3,
-  Search, Mail, Monitor,
+  Megaphone, MousePointer2, Target, Search, Mail, Monitor,
+  Palette, Video, GraduationCap, Users,
 } from "lucide-react";
 export { ceoImg, digitalMediaDirectorImg, developerImg };
 
@@ -35,360 +33,240 @@ export const NAV_LINKS = [
   { label: "Contact",      href: "/contact" },
 ];
 
+// Small round avatar with initials (used when we have no photo)
+function initialsAvatar(name: string): string {
+  const letters = name.split(" ").filter(Boolean).map((w) => w[0]).slice(0, 2).join("").toUpperCase();
+  const svg =
+    `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>` +
+    `<rect width='100' height='100' fill='#1E34A0'/>` +
+    `<text x='50' y='63' font-size='38' text-anchor='middle' fill='white' font-family='Arial, sans-serif'>${letters}</text>` +
+    `</svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
 // ─── Services data ─────────────────────────────────────────────────────────────
 export const SERVICES = [
   {
-    icon: Megaphone,
-    title: "Brand Strategy & Positioning",
-    color: ORANGE,
-    desc: "We build distinctive brand identities and go-to-market strategies that cut through the noise — from positioning to messaging to visual identity systems.",
-    details: ["Brand audit & competitive analysis", "Brand architecture & naming", "Visual identity systems", "Brand guidelines & playbooks", "Go-to-market strategy"],
+    icon: MousePointer2,
+    title: "Social Media & Community Management",
+    color: NAVY,
+    desc: "We run your social media pages day to day: content, posting, replies and reporting, so your brand stays active and your community keeps growing.",
+    details: ["Page set-up & content calendar", "Content creation & posting", "Comment & message replies", "Community growth & engagement", "Regular performance reports"],
   },
   {
     icon: Target,
     title: "Digital Advertising",
-    color: NAVY,
-    desc: "Performance-driven campaigns across Google, Meta, LinkedIn, TikTok, and programmatic networks. We combine creative excellence with data-driven optimization.",
-    details: ["Google Ads (Search, Display, YouTube)", "Meta & Instagram Ads", "LinkedIn & TikTok Campaigns", "Programmatic Display", "Retargeting & remarketing"],
-  },
-  {
-    icon: Globe,
-    title: "Traditional Advertising",
     color: ORANGE,
-    desc: "TV, radio, print, outdoor (OOH), and transit advertising. We plan, create, and buy media that reaches your audience where they live, work, and travel.",
-    details: ["TV commercials & placement", "Radio production & buying", "Print advertising (press, magazine)", "Outdoor & billboard campaigns", "Transit & transit advertising"],
+    desc: "Paid campaigns on Facebook, Instagram, Google, TikTok and LinkedIn, planned, launched and optimised to bring you enquiries and sales.",
+    details: ["Facebook & Instagram Ads", "Google Ads (Search & Display)", "TikTok & LinkedIn campaigns", "Audience targeting & retargeting", "Budget tracking & optimisation"],
   },
   {
-    icon: MousePointer2,
-    title: "Social Media & Content",
+    icon: Monitor,
+    title: "Website Design & Development",
     color: NAVY,
-    desc: "From strategy to content production to community management — we build social presences that engage audiences and drive measurable business outcomes.",
-    details: ["Social media strategy", "Content creation & production", "Community management", "Influencer partnerships", "Social listening & analytics"],
+    desc: "Fast, mobile-friendly websites that present your business clearly and make it easy for customers to contact you.",
+    details: ["Website design & structure", "WordPress & custom development", "Mobile-friendly layouts", "Contact forms & WhatsApp links", "Basic SEO set-up"],
   },
   {
-    icon: PenTool,
-    title: "Creative Production",
+    icon: Palette,
+    title: "Brand Identity & Graphic Design",
     color: ORANGE,
-    desc: "Full-service creative studio: TV commercials, radio spots, digital video, photography, copywriting, and print design. Award-winning craft, on time and on budget.",
-    details: ["TV & digital video production", "Photography & art direction", "Copywriting & content strategy", "Print & packaging design", "Motion graphics & animation"],
+    desc: "Logos, brand guidelines and visuals that make your business look professional and consistent everywhere your customers see it.",
+    details: ["Logo & brand guidelines", "Flyers, posters & banners", "Social media visuals", "Business cards & print materials", "Roll-ups & exhibition banners"],
   },
   {
-    icon: BarChart3,
-    title: "Marketing Analytics",
+    icon: Video,
+    title: "Video, Photo & Content Production",
     color: NAVY,
-    desc: "Cross-channel attribution, audience research, campaign measurement, and CRO. We turn complex data into clear insights that inform smarter decisions.",
-    details: ["Campaign tracking & reporting", "Cross-channel attribution", "Audience research & segmentation", "Conversion rate optimization", "Monthly performance dashboards"],
+    desc: "Short videos, ad spots, photo shoots and written content that tell your story and give your pages something worth watching.",
+    details: ["Ad spots & short videos", "Corporate videos", "Motion design & animation", "Professional photo shoots", "Copywriting & content"],
   },
   {
     icon: Search,
     title: "Search Engine Optimization",
     color: ORANGE,
-    desc: "Technical SEO, on-page optimization, and content strategy that builds organic visibility and drives qualified traffic that converts.",
-    details: ["Technical SEO audit & fixes", "Keyword research & strategy", "On-page optimization", "Link building", "Local SEO"],
+    desc: "Technical and on-page SEO that helps customers find you on Google and brings in qualified visitors.",
+    details: ["SEO audit", "Keyword research", "On-page optimisation", "Local SEO", "Content strategy"],
   },
   {
     icon: Mail,
-    title: "Email Marketing",
+    title: "Email Marketing & Newsletters",
     color: NAVY,
-    desc: "Automated flows, newsletters, and lifecycle campaigns that nurture leads, retain customers, and drive measurable revenue.",
-    details: ["Email strategy & planning", "Campaign design & copywriting", "Automation & drip flows", "A/B testing & optimization", "List hygiene & segmentation"],
+    desc: "Newsletters and email flows that keep your customers informed and bring them back.",
+    details: ["Newsletter design & sending", "Email copywriting", "Audience lists & segmentation", "Automation flows", "Performance reporting"],
   },
   {
-    icon: Monitor,
-    title: "Website Design & Development",
+    icon: GraduationCap,
+    title: "Training & Coaching",
     color: ORANGE,
-    desc: "Conversion-focused websites that look stunning, load fast, and are built to generate leads and sales — not just impressions.",
-    details: ["UX strategy & wireframing", "Visual design & branding", "Frontend development", "CMS integration", "Performance & SEO optimization"],
+    desc: "SLIM BIZ Digital Academy offers 40 practical courses in digital marketing, design, video, web and AI, in person, online or hybrid, with a certificate.",
+    details: ["Digital marketing & social media", "Graphic design & video editing", "Web development & AI", "Certificate on completion", "In-person, online or hybrid"],
   },
   {
     icon: Megaphone,
     title: "Events, Conferences & Seminars",
     color: NAVY,
-    desc: "End-to-end event management for corporate conferences, professional seminars, product launches, trade shows, and brand activations — from concept to execution.",
+    desc: "End-to-end support for conferences, seminars, product launches and brand activations, from concept to execution.",
     details: ["Event concept & strategy", "Conference & seminar organisation", "Venue sourcing & logistics", "Speaker & panel coordination", "Brand activation & experiential marketing", "Live coverage & post-event content", "Trade shows & exhibition stands"],
   },
+  {
+    icon: Users,
+    title: "Recruitment & Talent Support",
+    color: ORANGE,
+    desc: "We help businesses find and shortlist the right people, for our own team and for our clients.",
+    details: ["Role definition & job descriptions", "Candidate sourcing", "Screening & shortlisting", "Training for new hires through the Academy"],
+  },
 ];
 
-// ─── Stats ─────────────────────────────────────────────────────────────────────
+// ─── Stats (only facts we can back up) ────────────────────────────────────────
 export const STATS = [
-  { value: "800+",   label: "Campaigns Launched" },
-  { value: "90B FCFA+", label: "Media Spend Managed" },
-  { value: "150+",   label: "Brands Served" },
-  { value: "12+",    label: "Years in Business" },
+  { value: "40",      label: "Academy Courses" },
+  { value: "3",       label: "Training Formats" },
+  { value: "4.5/5",   label: "Sortlist Rating" },
+  { value: "EN & FR", label: "Languages" },
 ];
 
-// ─── Portfolio ─────────────────────────────────────────────────────────────────
+// ─── Portfolio (real clients; add more when you have permission) ──────────────
 export const PORTFOLIO = [
   {
-    img: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=700&h=500&fit=crop&auto=format",
-    title: "National Bank — Integrated Campaign",
-    category: "Financial Services · TV + Digital + OOH",
-    result: "12M reach delivered",
-    tags: ["Branding", "TV", "Digital"],
-    client: "National Bank of Cameroun",
-    year: "2025",
-    desc: "A fully integrated brand campaign spanning TV, outdoor, and digital channels to reposition the bank for a younger, mobile-first generation.",
-    metrics: [
-      { label: "Brand awareness lift", value: "+47%" },
-      { label: "Digital engagement rate", value: "8.2%" },
-      { label: "New account openings", value: "+28%" },
-    ],
-  },
-  {
     img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=700&h=500&fit=crop&auto=format",
-    title: "NovaSkin — Product Launch",
-    category: "Beauty & Skincare · Social + Influencer + Retail",
-    result: "8.5M FCFA first-month sales",
-    tags: ["Launch", "Social", "Influencer"],
-    client: "NovaSkin Cosmetics",
-    year: "2025",
-    desc: "End-to-end brand and launch campaign for a premium African skincare brand entering the regional market via social, influencer partnerships, and retail activations.",
+    title: "Carilux Beauty Cosmetics",
+    category: "Skincare & Beauty · Social media, ads & web",
+    result: "Active client",
+    tags: ["Social", "Digital"],
+    client: "Carilux Beauty Cosmetics",
+    year: "Current client",
+    desc: "We manage social media community management, website development and paid advertising for this beauty and skincare brand.",
     metrics: [
-      { label: "First-month sales", value: "1.7B FCFA" },
-      { label: "Influencer reach", value: "4.8M" },
-      { label: "Retail stockists gained", value: "120" },
+      { label: "Social media community management", value: "✓" },
+      { label: "Website development", value: "✓" },
+      { label: "Paid advertising", value: "✓" },
     ],
   },
   {
-    img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=700&h=500&fit=crop&auto=format",
-    title: "AutoNation — TV Commercial Series",
-    category: "Automotive · Broadcast + Radio + Digital",
-    result: "6M impressions generated",
-    tags: ["TV", "Radio", "Automotive"],
-    client: "AutoNation Group",
-    year: "2024",
-    desc: "A 6-spot TV commercial series combined with radio and digital pre-roll to drive showroom foot traffic for the region's largest automotive dealer.",
+    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&h=500&fit=crop&auto=format",
+    title: "Berline Cosmetic Canada",
+    category: "Skincare & Beauty · Social media, ads & web",
+    result: "Active client",
+    tags: ["Social", "Digital"],
+    client: "Berline Cosmetic Canada",
+    year: "Current client",
+    desc: "We manage social media community management, website development and paid advertising for this beauty and skincare brand.",
     metrics: [
-      { label: "Showroom traffic lift", value: "+42%" },
-      { label: "TV GRPs delivered", value: "1,200" },
-      { label: "Radio spots aired", value: "480" },
+      { label: "Social media community management", value: "✓" },
+      { label: "Website development", value: "✓" },
+      { label: "Paid advertising", value: "✓" },
     ],
   },
   {
     img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&h=500&fit=crop&auto=format",
-    title: "UrbanFit — OOH Campaign",
-    category: "Fitness · OOH + Transit + Social",
-    result: "15M FCFA revenue in 90 days",
-    tags: ["OOH", "Social", "Fitness"],
-    client: "UrbanFit Gyms",
-    year: "2024",
-    desc: "A bold outdoor campaign across 85 locations in Yaoundé and Douala, paired with geo-targeted social ads for a new gym chain launch.",
+    title: "Miss Shasha Organic Skincare",
+    category: "Skincare & Beauty · Social media, ads & web",
+    result: "Active client",
+    tags: ["Social", "Digital"],
+    client: "Miss Shasha Organic Skincare",
+    year: "Current client",
+    desc: "We manage social media community management, website development and paid advertising for this organic skincare brand.",
     metrics: [
-      { label: "New memberships", value: "10,000" },
-      { label: "OOH locations", value: "85" },
-      { label: "Cost per acquisition", value: "10,500 FCFA" },
-    ],
-  },
-  {
-    img: techCorpImg,
-    title: "TechCorp — B2B Lead Generation",
-    category: "Technology · LinkedIn + Print + Events",
-    result: "7.2M FCFA pipeline generated",
-    tags: ["B2B", "LinkedIn", "Events"],
-    client: "TechCorp Africa",
-    year: "2025",
-    desc: "A cohesive B2B campaign combining LinkedIn thought leadership, industry trade press, and conference sponsorships to generate enterprise pipeline.",
-    metrics: [
-      { label: "Pipeline generated", value: "6.4B FCFA" },
-      { label: "Qualified leads", value: "340" },
-      { label: "Cost per lead", value: "48,750 FCFA" },
-    ],
-  },
-  {
-    img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&h=500&fit=crop&auto=format",
-    title: "Artisan Foods — Rebrand & Launch",
-    category: "FMCG · Brand Strategy + Packaging + Media",
-    result: "9.8M FCFA revenue growth",
-    tags: ["Branding", "FMCG", "Packaging"],
-    client: "Artisan Foods Ltd",
-    year: "2024",
-    desc: "Complete rebrand, packaging redesign, and national launch campaign for a beloved local food brand entering modern retail channels.",
-    metrics: [
-      { label: "Retail listings gained", value: "450" },
-      { label: "Revenue growth (YoY)", value: "+83%" },
-      { label: "Brand recall score", value: "71%" },
+      { label: "Social media community management", value: "✓" },
+      { label: "Website development", value: "✓" },
+      { label: "Paid advertising", value: "✓" },
     ],
   },
 ];
 
-// ─── Testimonials ──────────────────────────────────────────────────────────────
+// ─── Testimonials (real Google reviews, shown word for word) ──────────────────
 export const TESTIMONIALS = [
   {
-    name: "Sarah Mitchell",
-    role: "Marketing Director, National Bank",
-    avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&auto=format",
-    quote: "SLIM BIZ orchestrated our largest brand campaign across TV, outdoor, and digital. The integrated approach delivered a 47% lift in unaided brand awareness — the best result we've seen in five years.",
+    name: "Carilux Cosmetics",
+    role: "Google review",
+    avatar: initialsAvatar("Carilux Cosmetics"),
+    quote: "La meilleure agence! ma marque Carilux Cosmétiques est aujourd'hui reconnue partout au Cameroun grâce aux partenariat entre nous et slim biz Équipe pro, créative et efficace. Je recommande à 100%.",
     rating: 5,
-    company: "National Bank",
-    result: "+47% brand awareness",
+    company: "Carilux Cosmetics",
+    result: "Google review",
   },
   {
-    name: "Marcus Chen",
-    role: "CEO, AutoNation Group",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format",
-    quote: "Their broadcast creative was stunning, and they managed the entire media buy across TV, radio, and digital. Showroom traffic increased 42% during the campaign window.",
+    name: "Princess Olive",
+    role: "Google review · Former digital marketing student",
+    avatar: initialsAvatar("Princess Olive"),
+    quote: "Congratulations to the CEO of this project who happens to be my digital marketing lecturer in 2022, I trust your expertise and experience",
     rating: 5,
-    company: "AutoNation Group",
-    result: "+42% showroom visits",
-  },
-  {
-    name: "Amara Osei-Bonsu",
-    role: "Founder, NovaSkin",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&auto=format",
-    quote: "They built our brand from scratch and launched it across social, influencer partnerships, and in-store. We hit 1.7B FCFA in first-month sales. SLIM BIZ doesn't just think creative — they think commercial.",
-    rating: 5,
-    company: "NovaSkin Cosmetics",
-    result: "1.7B FCFA first-month sales",
-  },
-  {
-    name: "David Okafor",
-    role: "VP Marketing, TechCorp",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&auto=format",
-    quote: "We needed a B2B campaign that worked across LinkedIn, industry print, and event sponsorships. SLIM BIZ delivered a cohesive multi-channel strategy that generated 6.4B FCFA in qualified pipeline.",
-    rating: 5,
-    company: "TechCorp Africa",
-    result: "6.4B FCFA pipeline generated",
-  },
-  {
-    name: "Fatima Ndongo",
-    role: "Brand Manager, Artisan Foods",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&auto=format",
-    quote: "The rebrand they delivered was transformational. From the new packaging to the launch campaign, every touchpoint felt premium and consistent. We went from niche to national in 6 months.",
-    rating: 5,
-    company: "Artisan Foods Ltd",
-    result: "450 new retail listings",
-  },
-  {
-    name: "James Bekele",
-    role: "CEO, UrbanFit Gyms",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&auto=format",
-    quote: "The outdoor campaign they designed stopped people in their tracks. Combined with geo-targeted social ads, we signed up 10,000 members in 90 days. ROI was exceptional.",
-    rating: 5,
-    company: "UrbanFit Gyms",
-    result: "10K memberships in 90 days",
+    company: "Princess Olive",
+    result: "Google review",
   },
 ];
 
-// ─── Blog posts ────────────────────────────────────────────────────────────────
+// ─── Blog posts (homepage preview) ─────────────────────────────────────────────
 export const BLOG_POSTS = [
   {
-    img: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=700&h=450&fit=crop&auto=format",
-    tag: "Advertising Strategy",
-    category: "Strategy",
-    date: "May 22, 2026",
-    readTime: "6 min read",
-    title: "Why the Best Campaigns Are Built for Both TV and TikTok",
-    excerpt: "Integrated campaigns that work across traditional and digital channels deliver 3× better brand lift. Here's how we plan them from the ground up.",
-    author: "SLIM BIZ Strategy Team",
-    authorImg: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&h=60&fit=crop&auto=format",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&h=450&fit=crop&auto=format",
-    tag: "Media Buying",
+    img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=700&h=450&fit=crop&auto=format",
+    tag: "Media",
     category: "Media",
-    date: "May 8, 2026",
-    readTime: "7 min read",
-    title: "The Outdoor Advertising Renaissance: OOH Is Back (And It's Digital)",
-    excerpt: "Programmatic DOOH, geofencing, and real-time creative are transforming outdoor advertising. We break down what's working in 2026.",
-    author: "Media Planning Desk",
-    authorImg: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&auto=format",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=700&h=450&fit=crop&auto=format",
-    tag: "Brand Strategy",
-    category: "Branding",
-    date: "April 18, 2026",
-    readTime: "8 min read",
-    title: "How to Build a Brand Campaign That Drives Both Awareness and Conversion",
-    excerpt: "Brand marketing doesn't have to sacrifice performance. Our framework for creating campaigns that build long-term equity while driving short-term results.",
-    author: "Creative Strategy Team",
-    authorImg: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&h=60&fit=crop&auto=format",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&h=450&fit=crop&auto=format",
-    tag: "Digital Marketing",
-    category: "Digital",
-    date: "April 2, 2026",
+    date: "October 14, 2026",
     readTime: "5 min read",
-    title: "The Death of Third-Party Cookies: What African Marketers Need to Know",
-    excerpt: "As browser vendors eliminate third-party tracking, here's how to future-proof your audience targeting strategy using first-party data and contextual signals.",
-    author: "Digital Analytics Team",
-    authorImg: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&auto=format",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&h=450&fit=crop&auto=format",
-    tag: "FMCG Marketing",
-    category: "Strategy",
-    date: "March 14, 2026",
-    readTime: "9 min read",
-    title: "Launching an FMCG Brand in Cameroun: A Practical Playbook",
-    excerpt: "Market entry, distribution strategy, and media planning for consumer brands targeting Camerounian and Central African markets — lessons from our portfolio.",
-    author: "SLIM BIZ Strategy Team",
-    authorImg: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=60&h=60&fit=crop&auto=format",
-  },
-  {
-    img: linkedInBlogImg,
-    tag: "B2B Marketing",
-    category: "Digital",
-    date: "February 28, 2026",
-    readTime: "6 min read",
-    title: "LinkedIn Advertising in Africa: Why It's Underused and How to Win",
-    excerpt: "LinkedIn CPCs in West and Central Africa are 40–60% lower than Europe. Here's how B2B brands can leverage this underserved channel for pipeline generation.",
-    author: "Digital Analytics Team",
-    authorImg: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&auto=format",
+    title: "Why the Best Campaigns Are Built for Both TV and TikTok",
+    excerpt: "TV builds trust and reach, while TikTok builds speed and conversation. Discover why the strongest brand campaigns no longer choose between them.",
+    author: "SLIM BIZ Editorial Team",
+    authorImg: initialsAvatar("SLIM BIZ"),
   },
 ];
 
 // ─── FAQ data ─────────────────────────────────────────────────────────────────
 export const FAQS = [
   {
-    q: "What types of campaigns does SLIM BIZ create?",
-    a: "We handle everything from full-scale brand campaigns (TV, outdoor, print, digital, social) to targeted performance campaigns (PPC, social ads, programmatic). Most clients work with us on integrated campaigns that combine traditional and digital channels for maximum impact.",
+    q: "What services does SLIM BIZ offer?",
+    a: "We run social media and community management, paid advertising (Facebook, Instagram, Google, TikTok, LinkedIn), website design and development, graphic design, video and photo production, SEO and email marketing. We also run a training academy, organise events and help businesses recruit staff.",
     category: "General",
   },
   {
-    q: "Do you produce TV commercials and broadcast content in-house?",
-    a: "Yes. Our creative studio handles everything: concept development, scripting, casting, filming, post-production, and media placement. We've produced award-winning commercials for TV, radio, cinema, and digital platforms.",
+    q: "Do you build websites?",
+    a: "Yes. We design and develop websites, including WordPress sites, that are fast, mobile-friendly and built to help customers contact you. See the Pricing page for starting prices.",
     category: "Services",
   },
   {
-    q: "Can you manage our media buying across all channels?",
-    a: "Absolutely. We plan and buy across TV, radio, outdoor (OOH/DOOH), print, digital display, paid social, search, and programmatic. Centralized buying means tighter budget control and better cross-channel optimization.",
+    q: "Do you run ads for clients?",
+    a: "Yes. We plan, launch and manage ads on Facebook, Instagram, Google, TikTok and LinkedIn. The ad budget itself is paid separately and goes entirely to the ad platforms.",
     category: "Services",
   },
   {
-    q: "What industries does SLIM BIZ work with?",
-    a: "We've delivered campaigns across FMCG, automotive, financial services, retail, hospitality, healthcare, technology, and government sectors. Our strategic frameworks adapt to your market, audience, and business model.",
+    q: "Can you help us recruit staff?",
+    a: "Yes. We help businesses define the role, find candidates and shortlist the best ones. Tell us who you need to hire through a free consultation.",
+    category: "Services",
+  },
+  {
+    q: "Do you offer training?",
+    a: "Yes. SLIM BIZ Digital Academy offers 40 courses in digital marketing, design, video, web and AI, in person, online or hybrid, with a certificate on completion. The registration fee is 10,000 FCFA.",
     category: "General",
   },
   {
-    q: "How do you measure campaign effectiveness?",
-    a: "We track both brand metrics (awareness, recall, consideration) and performance metrics (traffic, leads, sales, ROAS). Every client gets a custom dashboard and bi-weekly reports tied to the business objectives we agreed at kickoff.",
-    category: "Reporting",
+    q: "Which businesses do you work with?",
+    a: "We work with small and growing businesses, including beauty and skincare brands. If you're not sure we're the right fit, book a free consultation and we'll tell you honestly.",
+    category: "General",
   },
   {
-    q: "What's your approach to traditional vs. digital advertising?",
-    a: "We believe the best campaigns leverage both. Traditional builds mass reach and brand authority; digital allows precision targeting and real-time optimization. We integrate them from the start so creative, messaging, and timing work in lockstep.",
+    q: "How do you decide which channels to use?",
+    a: "We start from your goals, your customers and your budget, then recommend the channels most likely to work for you, whether that's social media, ads, a website or a mix. We'll also tell you what is not worth spending money on.",
     category: "Strategy",
   },
   {
-    q: "What's the minimum budget to work with SLIM BIZ?",
-    a: "We work with clients from a minimum monthly retainer of FCFA 500,000 for focused digital services, up to multi-million-franc integrated campaigns. We're transparent about what we can realistically deliver at any budget level.",
+    q: "How do you report on results?",
+    a: "You receive a performance report on a schedule that depends on your package: monthly, every two weeks or weekly. Each report covers the numbers that matter to your goals, such as reach, messages, leads and sales.",
+    category: "Reporting",
+  },
+  {
+    q: "How much do your packages cost?",
+    a: "Monthly packages start from 100,000 FCFA, excluding ad budget and VAT. The Pricing page lists each package and the add-on services available individually.",
+    category: "Pricing",
+  },
+  {
+    q: "Is there a minimum contract?",
+    a: "We ask for an initial 3-month commitment. After that, the arrangement continues month to month with 30 days' notice to leave.",
     category: "Pricing",
   },
   {
     q: "How long does it take to see results?",
-    a: "Performance campaigns (PPC, paid social) can generate results within days. Brand campaigns typically show measurable shifts in awareness within 4–8 weeks. We set clear expectations at the start based on your objectives and budget.",
-    category: "General",
-  },
-  {
-    q: "Do you offer long-term retainer agreements?",
-    a: "Yes. Most of our clients are on 6–12 month retainer agreements, which allows us to act as a true strategic partner rather than a one-off supplier. Retainer clients also benefit from priority access to our creative and strategy teams.",
-    category: "Pricing",
-  },
-  {
-    q: "What makes SLIM BIZ different from other agencies in Cameroun?",
-    a: "We're one of the few agencies in the region with genuine end-to-end capabilities: brand strategy, creative production, TV/radio/OOH buying, digital advertising, and analytics — all under one roof, with senior account leadership on every client.",
+    a: "Paid ads can bring first messages and visits within days. Growing a social media community and Google visibility takes longer, usually a few months of steady work. We set clear expectations with you at the start.",
     category: "General",
   },
 ];
@@ -400,14 +278,14 @@ export const TEAM = [
     role: "Founder & CEO",
     img: ceoImg,
     imgPosition: "object-[center_30%]",
-    bio: "Founder of SLIM BIZ SARL, driving 360° marketing and advertising excellence across Cameroun and Central Africa.",
+    bio: "Founder of SLIM BIZ SARL, leading the agency's marketing, advertising and training work in Cameroun.",
     linkedin: "#",
   },
   {
     name: "Nathalie Essono",
     role: "Community Manager",
     img: lizethImg,
-    bio: "Award-winning creative with 12 years in TV, digital, and brand identity. Cannes Lions finalist 2023.",
+    bio: "Manages client social media pages, plans content and keeps online communities active and engaged.",
     linkedin: "#",
   },
   {
@@ -428,7 +306,7 @@ export const TEAM = [
     name: "Nouguep Nadyane Paola",
     role: "Digital Media Director",
     img: digitalMediaDirectorImg,
-    bio: "Specialist in programmatic, paid social, and data-driven media planning. Leads SLIM BIZ digital media strategy across all platforms.",
+    bio: "Specialist in paid social and digital media planning. Leads SLIM BIZ digital media strategy across platforms.",
     linkedin: "#",
   },
   {
@@ -442,56 +320,14 @@ export const TEAM = [
     name: "Yofende Louis Kogah",
     role: "Developer",
     img: developerImg,
-    bio: "Full-stack developer building the digital infrastructure that powers SLIM BIZ campaigns — from web platforms to marketing automation.",
+    bio: "Developer building the websites and digital tools that power SLIM BIZ and its clients.",
     linkedin: "#",
   },
 ];
 
 // ─── Open positions ───────────────────────────────────────────────────────────
-export const JOBS = [
-  {
-    title: "Senior Digital Media Planner",
-    department: "Digital Media",
-    type: "Full-time",
-    location: "Yaoundé, Cameroun",
-    desc: "Lead media planning and buying for 3–5 major accounts across paid search, paid social, and programmatic channels.",
-  },
-  {
-    title: "Creative Copywriter",
-    department: "Creative",
-    type: "Full-time",
-    location: "Yaoundé or Remote",
-    desc: "Craft compelling copy for TV scripts, digital ads, social content, and brand guidelines. French and English required.",
-  },
-  {
-    title: "Account Manager",
-    department: "Client Services",
-    type: "Full-time",
-    location: "Yaoundé, Cameroun",
-    desc: "Own client relationships, campaign coordination, and reporting for a portfolio of mid-market clients.",
-  },
-  {
-    title: "Motion Graphics Designer",
-    department: "Creative Production",
-    type: "Full-time",
-    location: "Yaoundé, Cameroun",
-    desc: "Create motion graphics, animated social content, and video post-production assets for campaigns across all channels.",
-  },
-  {
-    title: "SEO & Content Specialist",
-    department: "Digital",
-    type: "Full-time / Contract",
-    location: "Remote",
-    desc: "Drive organic growth for clients through technical SEO, content strategy, and analytics. Strong French & English writing required.",
-  },
-  {
-    title: "Marketing Intern",
-    department: "Strategy",
-    type: "Internship (6 months)",
-    location: "Yaoundé, Cameroun",
-    desc: "Support the strategy team with research, campaign analysis, and client presentations. Great for final-year students.",
-  },
-];
+// Not hiring right now. The Careers page has its own OPEN_ROLES list.
+export const JOBS: { title: string; department: string; type: string; location: string; desc: string }[] = [];
 
 // ─── Shared section header ────────────────────────────────────────────────────
 export function SectionTag({ label }: { label: string }) {
@@ -526,7 +362,7 @@ export function PageHero({ tag, title, subtitle, dark = true }: { tag: string; t
         />
         <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(18,31,107,0.88) 0%, rgba(18,31,107,0.70) 60%, rgba(18,31,107,0.50) 100%)" }} />
       </div>
-      
+
       <div className="relative w-full max-w-7xl mx-auto px-5 lg:px-10 text-center py-20 pt-28 sm:pt-32 lg:pt-36">
         <SectionTag label={tag} />
         <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-3 sm:mb-4 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h1>
@@ -539,4 +375,3 @@ export function PageHero({ tag, title, subtitle, dark = true }: { tag: string; t
     </section>
   );
 }
-   
