@@ -38,7 +38,7 @@ export default function ServicesPage() {
             <SectionTag label="What We Offer" />
             <h2 className="text-3xl lg:text-4xl text-foreground mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Our Service Portfolio</h2>
             <p className="text-muted-foreground max-w-xl mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Ten core service areas. All connected by a single strategic vision and managed by senior specialists who live and breathe your industry.
+              Eleven core service areas. All connected by a single strategic vision and managed by senior specialists who live and breathe your industry.
             </p>
           </div>
 

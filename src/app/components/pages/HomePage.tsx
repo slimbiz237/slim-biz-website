@@ -114,7 +114,7 @@ function AboutPreview() {
             </div>
             <div className="absolute -bottom-6 -right-6 w-48 h-36 flex items-end p-5 z-20" style={{ background: NAVY }}>
               <div>
-                <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem" }}>2018</p>
+                <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem" }}>2024</p>
                 <p className="text-white/80 text-xs tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>Center. in Yaoundé</p>
               </div>
             </div>
@@ -161,8 +161,8 @@ function ServicesPreview() {
             Traditional. Digital. Social. All Orchestrated.
           </h2>
           <p className="max-w-xl mx-auto" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
-            From TV commercials to outdoor billboards to targeted social ads — we plan, create, and execute across every channel with one cohesive strategy.
-          </p>
+           From social media management to targeted ads, websites and training — we plan, create and run your marketing with one clear strategy.
+           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: "rgba(255,255,255,0.06)" }}>
