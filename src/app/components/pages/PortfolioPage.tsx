@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { NAVY, ORANGE, NAVY_DARK, ORANGE_HVR, PORTFOLIO, SectionTag, PageHero } from "../shared";
-
-const ALL_TAGS = ["All", "Branding", "TV", "Digital", "Social", "OOH", "B2B", "FMCG", "Launch", "Influencer", "Radio", "Automotive", "Fitness", "Events", "Packaging"];
-
+const ALL_TAGS = ["All", "Social", "Digital"];
 export default function PortfolioPage() {
   const [activeTag, setActiveTag] = useState("All");
   const [activeCase, setActiveCase] = useState<number | null>(null);
@@ -99,7 +97,7 @@ export default function PortfolioPage() {
                         <p className="text-muted-foreground text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{item.desc}</p>
                       </div>
                       <div>
-                        <p className="text-xs tracking-[0.2em] uppercase mb-4" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>Key Results</p>
+                        <p className="text-xs tracking-[0.2em] uppercase mb-4" style={{ fontFamily: "'Inter', sans-serif", color: ORANGE }}>What We Do</p>
                         <div className="space-y-4">
                           {item.metrics.map((m) => (
                             <div key={m.label} className="flex items-center gap-4">
