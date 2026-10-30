@@ -267,7 +267,7 @@ function Footer() {
               {[
                 { icon: MapPin, text: "Rond Point Express\nYaoundé, Cameroun" },
                 { icon: Phone,  text: "+237 657 202 002\n+237 679 965 961" },
-                { icon: Mail,   text: "infoslimbiz@gmail.com" },
+                { icon: Mail,   text: "info@slimbizmarketingagency.com" },
                 { icon: Globe,  text: "www.slimbizmarketingagency.com" },
               ].map(({ icon: Icon, text }, i) => (
                 <div key={i} className="flex gap-3 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>

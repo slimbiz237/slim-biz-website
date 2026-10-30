@@ -270,7 +270,7 @@ export default function TrainingPage() {
                   { label: "VAT No.",       value: "M032517649967A" },
                   { label: "Address",       value: "Rond Point Express, Yaoundé, Cameroun" },
                   { label: "Phone",         value: "+237 657 202 002 / +237 679 965 961" },
-                  { label: "Email",         value: "infoslimbiz@gmail.com" },
+                  { label: "Email",         value: "info@slimbizmarketingagency.com" },
                   { label: "Website",       value: "slimbizmarketingagency.com" },
                 ].map((item) => (
                   <div key={item.label} className="grid grid-cols-5 gap-3 text-sm border-b pb-2" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
@@ -490,7 +490,7 @@ export default function TrainingPage() {
                   { label: "Event types", value: "Conferences · Seminars · Workshops · Panel discussions · Product launches · Trade shows · Corporate training days" },
                   { label: "Languages",   value: "English & French" },
                   { label: "Location",    value: "Yaoundé & nationwide · Online available" },
-                  { label: "Contact",     value: "+237 657 202 002 · infoslimbiz@gmail.com" },
+                  { label: "Contact",     value: "+237 657 202 002 · info@slimbizmarketingagency.com" },
                 ].map((item) => (
                   <div key={item.label} className="border-b pb-4" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
                     <p className="text-xs mb-1" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.4)" }}>{item.label}</p>
@@ -569,7 +569,7 @@ export default function TrainingPage() {
           <div className="mt-10 grid sm:grid-cols-3 gap-4">
             {[
               { label: "Téléphone / WhatsApp", value: "+237 657 202 002\n+237 679 965 961" },
-              { label: "Email",                value: "infoslimbiz@gmail.com" },
+              { label: "Email",                value: "info@slimbizmarketingagency.com" },
               { label: "Adresse",              value: "Rond Point Express\nYaoundé-Cameroun" },
             ].map((item) => (
               <div key={item.label} className="p-4 border text-center" style={{ borderColor: "rgba(255,255,255,0.08)" }}>

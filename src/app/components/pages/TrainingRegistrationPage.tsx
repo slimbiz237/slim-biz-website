@@ -512,7 +512,7 @@ export default function TrainingRegistrationPage() {
         <div className="mt-10 grid sm:grid-cols-3 gap-4">
           {[
             { label: "Téléphone / WhatsApp", value: "+237 657 202 002\n+237 679 965 961" },
-            { label: "Email", value: "infoslimbiz@gmail.com" },
+            { label: "Email", value: "info@slimbizmarketingagency.com" },
             { label: "Adresse", value: "Rond Point Express\nYaoundé-Cameroun" },
           ].map((item) => (
             <div key={item.label} className="p-4 border text-center" style={{ borderColor: "rgba(255,255,255,0.08)" }}>

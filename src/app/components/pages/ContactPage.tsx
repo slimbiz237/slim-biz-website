@@ -59,7 +59,7 @@ export default function ContactPage() {
               <div className="space-y-6 mb-10">
                 {[
                   { icon: Phone,  label: "Phone",   value: "+237 657 202 002", sub: "Mon–Fri, 8am–6pm (WAT)" },
-                  { icon: Mail,   label: "Email",   value: "infoslimbiz@gmail.com", sub: "We reply within 1 working day" },
+                  { icon: Mail,   label: "Email",   value: "info@slimbizmarketingagency.com", sub: "We reply within 1 working day" },
                   { icon: MapPin, label: "Office",  value: "Rond Point Express\nYaoundé, Cameroun", sub: "Open to visits by appointment" },
                   { icon: Clock,  label: "Hours",   value: "Mon–Fri: 8:00am – 6:00pm\nSat: 9:00am – 1:00pm", sub: "WAT (UTC+1)" },
                 ].map((item) => (
