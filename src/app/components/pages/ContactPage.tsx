@@ -22,7 +22,7 @@ export default function ContactPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch("https://formsubmit.co/ajax/e1ebe916dc46af2e90be5073737b8e7e", {
+      await fetch("https://formsubmit.co/ajax/info@slimbizmarketingagency.com", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
