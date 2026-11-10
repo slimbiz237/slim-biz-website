@@ -159,7 +159,7 @@ function useArticleSeo(post: BlogPost | null, slug?: string) {
     if (!post || !slug) return
 
     const previousTitle = document.title
-    const canonicalUrl = `${SITE_URL}/blog/${encodeURIComponent(slug)}`
+    const canonicalUrl = `${SITE_URL}/blog/${encodeURIComponent(slug)}/`
     const image = imgUrl(post.img)
     const parsedDate = new Date(post.date)
     const publishedTime = Number.isNaN(parsedDate.getTime())

@@ -129,7 +129,7 @@ function setTitle(html, title) {
 }
 
 function articlePage(template, post, slug) {
-  const canonicalUrl = `${SITE_URL}/blog/${slug}`
+  const canonicalUrl = `${SITE_URL}/blog/${slug}/`
   const image = post.img || undefined
   const publishedTime = isoDate(post.date) ?? post.date
   const language = /[àâçéèêëîïôùûüÿœ]/i.test(`${post.title} ${post.excerpt}`)
@@ -233,7 +233,7 @@ const urls = [
     priority,
   })),
   ...posts.map(({ slug, post }) => ({
-    loc: `${SITE_URL}/blog/${slug}`,
+    loc: `${SITE_URL}/blog/${slug}/`,
     lastmod: dateOnly(post.date),
     frequency: "monthly",
     priority: "0.8",
